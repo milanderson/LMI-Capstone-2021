@@ -66,11 +66,27 @@ class rdfObject:
     def synonymsList(self):
         return ([f.string for f in self.xmlRDFString.find_all('synonym')])
 
+    # Return all the matching words with acronym tag in the xml string
+    def acronymsList(self):
+        return ([f.string for f in self.xmlRDFString.find_all('acronym')])
 
+    # Return all matching words with a given tag in the xml string
+    def customTagList(self,tagToMatch):
+        return ([f.string for f in self.xmlRDFString.find_all(tagToMatch)])
+
+    # Save the modifiled rdf file to another destination file
+    def saveRDFFile(self,destFilename):
+        f = open(destFilename, "w",encoding="UTF-8")
+        f.write(self.modifiedRDFString)
+        f.close()
 
 if __name__ == '__main__':
     print('RDF file handling functionality...')
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
     print(rdf.synonymsList())
+    print(rdf.customTagList("synonym"))
+    print(rdf.acronymsList())
+    print(rdf.customTagList("acronym"))
+    rdf.saveRDFFile("c:\\testing\\DASD_SKOS_Ontology_mod.rdf")
     print('Completed Successfully')
-
+    
