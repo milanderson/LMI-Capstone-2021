@@ -89,4 +89,4 @@ if __name__ == '__main__':
     print(rdf.customTagList("acronym"))
     rdf.saveRDFFile("c:\\testing\\DASD_SKOS_Ontology_mod.rdf")
     print('Completed Successfully')
-    
+
