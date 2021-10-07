@@ -1,5 +1,5 @@
 import pandas as pd
-import regex as re
+import re
 import numpy as np
 import os
 import webbrowser
@@ -16,6 +16,7 @@ class DocExtract():
         if text: #Test clean_text method by initializing the class with text
             self.raw_text = text
             self.cleaned_text = self.clean_text(self.raw_text)
+            self.cleaned_text_list = None
         self.root_path = 'https://mikeanders.org/data/Ontologies/DoD/Corpus/processed/'
         self.doc_types = ['admin%20instructions', 'directives', 'instructions', 'manuals', 'memos']
         self.headers = ['Name', 'Last modified', 'Size', 'Description']
@@ -23,6 +24,7 @@ class DocExtract():
                             "file_name":[],
                              "raw_text":[],
                              "cleaned_text":[],
+                             "cleaned_text_list":[],
                              "url":[],
                              "acronyms": []}
 
@@ -43,69 +45,96 @@ class DocExtract():
         text_lines = [i for i in no_newLine if i != '']
 
         # Pulling the date from the first line of the document
+        # TODO: Modify header matching to add a couple different cases instead of assuming one header
+        #       style for all documents
         # Assumes the first line follows the format: Some Text, Date
         pattern = re.search("[a-zA-Z][\s][0-9]{1,2},[\s][0-9]{4}", text_lines[0])
 
-        # A list to hold the indices in final_list that contain headers
-        match_index = []
-        for i in range(len(text_lines)):
-            match = re.search(pattern.group(), text_lines[i])
-            if match:
-                match_index.append(i)
+        # If pattern isn't found, return list of text (for section segmentation) and cleaned text with lines rejoined
+        if not pattern:
+            print("Unable to remove headers and footers.")
+            self.cleaned_text_list = text_lines
+            return " ".join(text_lines)
+        else:
+            # A list to hold the indices in final_list that contain headers
+            match_index = []
+            for i in range(len(text_lines)):
+                match = re.search(pattern.group(), text_lines[i])
+                if match:
+                    match_index.append(i)
+                else:
+                    continue
+
+            # Create a list of dictionaries with the text as the key and the index as the value
+            # Used to create a defaultdict
+            headers_duplicates = []
+            for i in match_index:
+                headers_duplicates.append({'text': text_lines[i], 'index': i})
+
+            # Create a dictionary with non-duplicate keys and a list of indices as the value
+            headers = defaultdict(list)
+            for item in headers_duplicates:
+                headers[item['text']].append(item['index'])
+
+            # Remove only those keys that have one entry
+            # Only the repeated keys (more than one value) are headers
+            # TODO: Might need to work on the case where there is only one page (one index value)
+            remove_key = []
+            for item in headers.items():
+                k = item[0]
+                v = item[1]
+
+                if len(v) > 1:
+                    #print('This key has more than one index.')
+                    continue
+                else:
+                    #print('This key has only 1 index. Therefore it is not a header. Adding to removal list.')
+                    remove_key.append(k)
+
+            if len(remove_key) == len(headers.items()):
+                pass
             else:
-                continue
+                # Removes the non-header keys from the dictionary
+                for k in remove_key:
+                    headers.pop(k)
 
-        # Create a list of dictionaries with the text as the key and the index as the value
-        # Used to create a defaultdict
-        headers_duplicates = []
-        for i in match_index:
-            headers_duplicates.append({'text': text_lines[i], 'index': i})
-
-        # Create a dictionary with non-duplicate keys and a list of indices as the value
-        headers = defaultdict(list)
-        for item in headers_duplicates:
-            headers[item['text']].append(item['index'])
-
-        # Remove only those keys that have one entry
-        # Only the repeated keys (more than one value) are headers
-        # TODO: Might need to work on the case where there is only one page (one index value)
-        remove_key = []
-        for item in headers.items():
-            k = item[0]
-            v = item[1]
-
-            if len(v) > 1:
-                #print('This key has more than one index.')
-                continue
+            if len(headers.items()) > 1:
+                print("Unable to remove headers and footers.")
+                self.cleaned_text_list = text_lines
+                return " ".join(text_lines)
             else:
-                #print('This key has only 1 index. Therefore it is not a header. Adding to removal list.')
-                remove_key.append(k)
+                # Using the headers indices to find the footers
+                # Footers follow the headers and should be one index away
+                headers_key = list(headers)[0]
+                footers = []
+                for i in headers.get(headers_key):
+                    i += 1
+                    footers.append(i)
 
-        # Removes the non-header keys from the dictionary
-        for k in remove_key:
-            headers.pop(k)
+                # Turn the headers values back into a list of indices
+                headers = headers[headers_key]
 
-        # Using the headers indices to find the footers
-        # Footers follow the headers and should be one index away
-        headers_key = list(headers)[0]
+                # Combine headers and footers in one list, sort in descending order to remove those items from
+                # the end of the document first (in order to keep index numbers from changing)
+                remove_list = headers + footers + [0]
+                remove_list.sort(reverse=True)
 
-        footers = []
-        for i in headers.get(headers_key):
-            i += 1
-            footers.append(i)
+                if remove_list:
+                    final_text_lines = []
+                    for i in remove_list:
+                        for j in range(len(text_lines)):
+                            if i == j:
+                                continue
+                            else:
+                                final_text_lines.append(text_lines[j])
+                else:
+                    print("Remove list empty - no headers of footers removed.")
 
-        # Turn the headers values back into a list of indices
-        headers = headers[headers_key]
+                self.cleaned_text_list = text_lines
 
-        # Combine headers and footers in one list, sort in descending order to remove those items from
-        # the end of the document first (in order to keep index numbers from changing)
-        remove_list = headers + footers + [0]
-        remove_list.sort(reverse=True)
+                print("Text is clean.")
 
-        for i in remove_list:
-            text_lines.pop(i)
-
-        return " ".join(text_lines)
+                return " ".join(text_lines)
 
     def parse_soup(self, soup, type, test):
         count = 0
@@ -118,11 +147,14 @@ class DocExtract():
             self.docs_dict['file_name'].append(link.text)
             self.docs_dict['raw_text'].append(raw_text)
             self.docs_dict['cleaned_text'].append(self.clean_text(raw_text))
+            self.docs_dict['cleaned_text_list'].append(self.cleaned_text_list)
             self.docs_dict['url'].append(self.root_path + type + "/" + link['href'])
             self.docs_dict['acronyms'].append(self.findAcronyms_Norm(self.clean_text(raw_text)))
+            print(f"Number of documents parsed: {count}")
             if test:
                 if count == 1:
                     break
+        print(f"Number of documents parsed: {count}")
 
     def get_text(self, doc_type='all', test=False):
         if doc_type == 'all':
@@ -240,10 +272,15 @@ if __name__ == "__main__":
 
     #test the class
     testDoc = DocExtract()
-    testDoc.get_text(doc_type = 'instructions', test=True)
+    testDoc.get_text(doc_type = 'all', test=False)
+
+    print("\n")
+    print("-----------------------------------------------------")
+    print("All documents parsed")
+    print("-----------------------------------------------------")
 
     #Save the one doc to dataframe
-    testDoc.df.to_csv("testing_dataframe.csv")
+    #testDoc.df.to_csv("testing_dataframe.csv")
 
     #Open up the original and then cleaned text
-    testDoc.test_one_doc()
+    #testDoc.test_one_doc()
