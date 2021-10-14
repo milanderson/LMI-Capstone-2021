@@ -1,11 +1,15 @@
 import pandas as pd
 import re
-import numpy as np
 import os
 import webbrowser
 from bs4 import BeautifulSoup
 import requests
+import json
 from collections import defaultdict
+import string
+import spacy
+nlp = spacy.load('en_core_web_sm')
+table = str.maketrans(dict.fromkeys(string.punctuation))
 
 class DocExtract():
     '''
@@ -26,7 +30,8 @@ class DocExtract():
                              "cleaned_text":[],
                              "cleaned_text_list":[],
                              "url":[],
-                             "acronyms": []}
+                             "acronyms": [],
+                             "glossary": []}
 
     def clean_text(self, text):
         '''
@@ -54,7 +59,7 @@ class DocExtract():
         if not pattern:
             print("Unable to remove headers and footers.")
             self.cleaned_text_list = text_lines
-            return " ".join(text_lines)
+            return " ".join(text_lines), text_lines
         else:
             # A list to hold the indices in final_list that contain headers
             match_index = []
@@ -101,7 +106,7 @@ class DocExtract():
             if len(headers.items()) > 1:
                 print("Unable to remove headers and footers.")
                 self.cleaned_text_list = text_lines
-                return " ".join(text_lines)
+                return " ".join(text_lines), text_lines
             else:
                 # Using the headers indices to find the footers
                 # Footers follow the headers and should be one index away
@@ -130,58 +135,61 @@ class DocExtract():
                 else:
                     print("Remove list empty - no headers of footers removed.")
 
-                self.cleaned_text_list = text_lines
-
                 print("Text is clean.")
 
-                return " ".join(text_lines)
+                return " ".join(text_lines), text_lines
 
-    def parse_soup(self, soup, type, test):
-        count = 0
+    def parse_soup(self, soup, type, test, full_count):
         for link in soup.find_all('a', href=True):
+            type_count = 0
             if link.text in self.headers:
                 continue
-            count += 1
+            full_count += 1
+            type_count += 1
             raw_text = requests.get(self.root_path + type + "/" + link['href']).text
+            cleaned_text, cleaned_text_list = self.clean_text(raw_text)
             self.docs_dict['doc_type'].append(type)
             self.docs_dict['file_name'].append(link.text)
             self.docs_dict['raw_text'].append(raw_text)
-            self.docs_dict['cleaned_text'].append(self.clean_text(raw_text))
-            self.docs_dict['cleaned_text_list'].append(self.cleaned_text_list)
+            self.docs_dict['cleaned_text'].append(cleaned_text)
+            self.docs_dict['cleaned_text_list'].append(cleaned_text_list)
             self.docs_dict['url'].append(self.root_path + type + "/" + link['href'])
-            self.docs_dict['acronyms'].append(self.findAcronyms_Norm(self.clean_text(raw_text)))
-            print(f"Number of documents parsed: {count}")
+            self.docs_dict['acronyms'].append(self.findAcronyms_Norm(cleaned_text))
+            self.docs_dict['glossary'].append(self.getGlossary(cleaned_text))
+            print(f"Number of documents parsed: {full_count}")
             if test:
-                if count == 1:
+                if type_count > 0:
                     break
-        print(f"Number of documents parsed: {count}")
+
+        return full_count
 
     def get_text(self, doc_type='all', test=False):
+        count = 0
         if doc_type == 'all':
             for type in self.doc_types:
                 source = requests.get(self.root_path + type).text
                 soup = BeautifulSoup(source, 'lxml')
-                self.parse_soup(soup, type, test)
+                count = self.parse_soup(soup, type, test, count)
         elif doc_type == 'admin':
             source = requests.get(self.root_path + self.doc_types[0]).text
             soup = BeautifulSoup(source, 'lxml')
-            self.parse_soup(soup, 'admin%20instructions', test)
+            count = self.parse_soup(soup, 'admin%20instructions', test, count)
         elif doc_type == 'directives':
             source = requests.get(self.root_path + self.doc_types[1]).text
             soup = BeautifulSoup(source, 'lxml')
-            self.parse_soup(soup, 'directives', test)
+            count = self.parse_soup(soup, 'directives', test, count)
         elif doc_type == 'instructions':
             source = requests.get(self.root_path + self.doc_types[2]).text
             soup = BeautifulSoup(source, 'lxml')
-            self.parse_soup(soup, 'instructions', test)
+            count = self.parse_soup(soup, 'instructions', test, count)
         elif doc_type == 'manuals':
             source = requests.get(self.root_path + self.doc_types[3]).text
             soup = BeautifulSoup(source, 'lxml')
-            self.parse_soup(soup, 'manuals', test)
+            count = self.parse_soup(soup, 'manuals', test, count)
         elif doc_type == 'memos':
             source = requests.get(self.root_path + self.doc_types[4]).text
             soup = BeautifulSoup(source, 'lxml')
-            self.parse_soup(soup, 'memos', test)
+            count = self.parse_soup(soup, 'memos', test, count)
         else:
             print("Please provide document type (all, admin, directives, instructions, manuals, or memos)")
         self.df = pd.DataFrame(self.docs_dict)
@@ -209,13 +217,6 @@ class DocExtract():
 
     # parse a block of text for acronyms using exhaustive recursive search across preceding words
     def findAcronyms_Norm(self, text):
-        #TODO (Mike): score based on shortest contiguous
-        def getLongest(lst):
-            if not lst:
-                return []
-            length = max(len(x) for x in lst)
-            return [x for x in lst if len(x) == length][0]
-
         def findMatch(fromStr, toStrList, matchList, isMatch=False):
             if not fromStr or not toStrList:
                 rets = " ".join(matchList[::-1])
@@ -252,9 +253,20 @@ class DocExtract():
             return False, ""
 
         acronym_table = {}
-        SEARCH_RANGE = 8
+        SEARCH_RANGE = 9
         # Assumes acronyms are defined in the form: (ToS) Terms of Service
         for result in [r for r in re.finditer(r'[(]([a-z]+)?[A-Z]+([a-zA-Z]+)?[)]', text, re.M|re.A)]:
+            stIdx, edIdx = result.span()
+            index = stIdx - 1
+            for _ in range(SEARCH_RANGE):
+                index = max(text.rfind(" ", 0, index), 0)
+            acronym, phrase = text[stIdx + 1:edIdx -1], text[index:stIdx - 1].replace('-', ' ').split(" ")
+            # TODO(Mike): add mutliple acronyms
+            if acronym not in acronym_table or type(acronym_table[acronym]) == list:
+                found, match = findMatch(acronym, phrase, [])
+                if found:
+                    acronym_table[acronym] = match
+        for result in [r for r in re.finditer(r'^[A-Z][a-zA-Z\(&\)]+', text, re.M|re.A)]:
             stIdx, edIdx = result.span()
             index = stIdx - 1
             for _ in range(SEARCH_RANGE):
@@ -265,7 +277,23 @@ class DocExtract():
                 found, match = findMatch(acronym, phrase, [])
                 if found:
                     acronym_table[acronym] = match
-        return acronym_table
+        return json.dumps(acronym_table)
+
+    def getGlossary(self, raw_text):
+        glossary = {}
+        if 'glossary' in raw_text.lower():
+            nlp_obj = nlp(raw_text)
+            sentences = list(nlp_obj.sents)
+            for i in range(len(sentences)):
+                if sentences[i].text.islower() and len(sentences[i].text.strip(' ')) > 3 and len(sentences[i].text.split()) < 5:
+                    try:
+                        if True in [char.isdigit() for char in sentences[i].text.strip(' ')]:
+                            continue
+                        glossary[sentences[i].text.translate(table).strip()] = sentences[i+1].text.strip()
+                    except:
+                        continue
+                i += 1
+        return json.dumps(glossary)
 
 
 if __name__ == "__main__":
@@ -280,7 +308,7 @@ if __name__ == "__main__":
     print("-----------------------------------------------------")
 
     #Save the one doc to dataframe
-    #testDoc.df.to_csv("testing_dataframe.csv")
+    testDoc.df.to_csv("full_dataframe.csv")
 
     #Open up the original and then cleaned text
     #testDoc.test_one_doc()
