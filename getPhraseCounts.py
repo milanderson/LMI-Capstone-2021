@@ -8,6 +8,7 @@
 import tokenize
 import nltk
 from rdfHandler import rdfObject
+import pandas as pd
 
 def test():
     phraseList = ["Apple", "Pear", "Peach", "Banana"]
@@ -23,42 +24,28 @@ def getPhraseCount(phraseList=[],tokenList=[]):
     if (len(phraseList) == 0 | len(tokenList) == 0):
         return(dict(zip(phraseList)))
 
-    print("*** BEGIN SOURCE PHRASES ***")
-    for tempPhrase in phraseList:
-        print("Source Phrase : " + tempPhrase)
-    print("*** END SOURCE PHRASES ***")
-
     phrasePosition = 0
     for tempPhrase in phraseList:
-        print("Source Phrase : " + tempPhrase)
+        #print("Phrase Position :: " + str(phrasePosition) + " - Phrase :: " + tempPhrase)
 
         phrase_Tokens = nltk.word_tokenize(tempPhrase)
-
-        print(phrase_Tokens)
-        for i in range(0,len(phrase_Tokens),1):
-            print("Token # {0} Word : {1}".format(i,phrase_Tokens[i]))
-
 
         tPosition = 0
         while tPosition < len(tokenList)-len(phrase_Tokens):
             compPhrase = ""
             pCount = 0
-            matched = False
+            matchCount = 0
             while pCount < len(phrase_Tokens):
                 compPhrase = compPhrase + tokenList[tPosition + pCount]
-                if phrase_Tokens[pCount] == tokenList[tPosition+pCount]:
-                    matched = True
-                else:
-                    matched = False
+                if phrase_Tokens[pCount].strip() == tokenList[tPosition+pCount].strip():
+                    matchCount = matchCount + 1
                 pCount = pCount + 1
-            #print("compPhrase : " + compPhrase)
+            if len(phrase_Tokens) == matchCount: #matched == True:
+                if len(phrase_Tokens) > 1:
+                    print("*** MATCHED ***")
 
-            #if matched == True:
-            if compPhrase == tempPhrase:
-                print("*** MATCHED ***")
-
-                print("tempPhrase : " + tempPhrase)
-                print("compPhrase : " + compPhrase)
+                    print("tempPhrase : " + tempPhrase)
+                    print("compPhrase : " + compPhrase)
                 countList[phrasePosition] = countList[phrasePosition] + 1
 
             tPosition = tPosition + 1
@@ -80,9 +67,13 @@ if __name__ == '__main__':
     data.replace(r"\n", " ")
     # print(data)
     nltk_tokens = nltk.word_tokenize(data)
-
+    #synonymsList = ["National Capital Region","NCR","item entry control"]
     retDict = getPhraseCount(synonymsList,nltk_tokens)
     print(retDict)
 
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
     print(rdf.synonymsList())
+
+    #df = pd.DataFrame.from_dict(retDict)
+    #print(df)
+
