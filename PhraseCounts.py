@@ -10,20 +10,11 @@ import nltk
 from rdfHandler import rdfObject
 import pandas as pd
 
-def test():
-    phraseList = ["Apple", "Pear", "Peach", "Banana"]
-    countList = [0, 0, 0, 0]
-
-    phraseDictionary = dict(zip(phraseList, countList))
-
-    return(phraseDictionary)
-
 # class to handle the phrase counts and related operations
 class phraseCounts:
-
     phraseCount = {}
-    def __int__(self):
 
+    def __int__(self):
         self.phraseCount = {}
 
     def getPhraseCount(self,listPhrases=[],listTokens=[]):
