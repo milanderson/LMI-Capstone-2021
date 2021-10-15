@@ -32,6 +32,7 @@ def getPhraseCount(phraseList=[],tokenList=[]):
 
         tPosition = 0
         while tPosition < len(tokenList)-len(phrase_Tokens):
+            #print("Processing Phrase # {0} out of {1}; Token {2} out of {3}".format(phrasePosition,len(phraseList),tPosition,len(tokenList),))
             compPhrase = ""
             pCount = 0
             matchCount = 0
