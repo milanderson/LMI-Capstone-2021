@@ -21,9 +21,13 @@ class phraseCounts:
     def __int__(self):
         self.phraseCount = {}
         self.phraseFrequency=[]
+
     def getPhraseCount(self,listPhrases=[],listTokens=[]):
         phraseList = listPhrases
         tokenList = listTokens
+
+        self.phraseCount = {}
+        self.phraseFrequency=[]
 
         countList = [0]*len(phraseList)
 
@@ -74,19 +78,23 @@ if __name__ == '__main__':
 
     synonymsList = rdf.synonymsList()
 
-    fileObject = open(r'C:\Users\srini\UVA-MSDS\DS-6011-CAP\Files\A50P.TXT', 'r') #AI08_2016.txt, A088P.TXT
+    filesList = ['a088p.txt','a50p.txt','AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
+    for fileName in filesList:
 
-    data = fileObject.read()
-    data.replace(r"\n", " ")
+        fileObject = open(filePath + fileName, 'r')
 
-    nltk_tokens = nltk.word_tokenize(data)
+        data = fileObject.read()
+        data.replace(r"\n", " ")
 
-    phCount = phraseCounts()
-    retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
-    print(retDict)
+        nltk_tokens = nltk.word_tokenize(data)
 
-    plt.hist(retDict)  # , y)
-    plt.show()
+        phCount = phraseCounts()
+        retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
+        print(retDict)
+
+        plt.hist(retDict)  # , y)
+        plt.show()
 
 
 
