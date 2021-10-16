@@ -4,12 +4,15 @@
 *           Reading an RDF File from the internet source, replace HTML characters with ASCII,
 *           Get Synonyms list etc.,
 '''
-import bs4 as bs4
+#from bs4 import beautifulsoup
 import lxml as lxml
 import numpy
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+import bs4
+
+
+#import beautifulsoup4
 
 # RDF Class
 class rdfObject:
@@ -21,7 +24,8 @@ class rdfObject:
     # Default constructor
     def __init__(self, rdfSource, type="web"):
         if (type == "web"):
-            headers = {'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
+            headers = {
+                'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
             reqString = requests.get(rdfSource, headers=headers)
             self.originalRDFString = reqString.text
             self.findHTMLChars()
@@ -56,11 +60,11 @@ class rdfObject:
             if (s[4:5] == ";"):
                 self.modifiedRDFString = self.modifiedRDFString.replace(s.strip(), chr(int(s[2:4])))
             else:
-                self.modifiedRDFString = self.modifiedRDFString.replace(s[2:5]+';', chr(int(s[2:5])))
+                self.modifiedRDFString = self.modifiedRDFString.replace(s[2:5] + ';', chr(int(s[2:5])))
 
     # Parse the modified RDF string as an XML parser and store in a separate string for further processing
     def parseXMLStrings(self):
-        self.xmlRDFString = BeautifulSoup(self.modifiedRDFString,"xml")
+        self.xmlRDFString = bs4.BeautifulSoup(self.modifiedRDFString, "xml")
 
     # Return all the matching words with synonym tag in the xml string
     def synonymsList(self):
@@ -71,14 +75,15 @@ class rdfObject:
         return ([f.string for f in self.xmlRDFString.find_all('acronym')])
 
     # Return all matching words with a given tag in the xml string
-    def customTagList(self,tagToMatch):
+    def customTagList(self, tagToMatch):
         return ([f.string for f in self.xmlRDFString.find_all(tagToMatch)])
 
     # Save the modifiled rdf file to another destination file
-    def saveRDFFile(self,destFilename):
-        f = open(destFilename, "w",encoding="UTF-8")
+    def saveRDFFile(self, destFilename):
+        f = open(destFilename, "w", encoding="UTF-8")
         f.write(self.modifiedRDFString)
         f.close()
+
 
 if __name__ == '__main__':
     print('RDF file handling functionality...')
@@ -89,4 +94,3 @@ if __name__ == '__main__':
     print(rdf.customTagList("acronym"))
     rdf.saveRDFFile("c:\\testing\\DASD_SKOS_Ontology_mod.rdf")
     print('Completed Successfully')
-

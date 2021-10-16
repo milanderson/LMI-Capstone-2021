@@ -8,15 +8,19 @@
 import tokenize
 import nltk
 from rdfHandler import rdfObject
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+
 
 # class to handle the phrase counts and related operations
 class phraseCounts:
     phraseCount = {}
+    phraseFrequency = []
 
     def __int__(self):
         self.phraseCount = {}
-
+        self.phraseFrequency=[]
     def getPhraseCount(self,listPhrases=[],listTokens=[]):
         phraseList = listPhrases
         tokenList = listTokens
@@ -25,7 +29,7 @@ class phraseCounts:
 
         if (len(phraseList) == 0 | len(tokenList) == 0):
             self.phraseCount = dict(zip(phraseList,countList))
-            return(self.phraseCount)
+            return([]) #(self.phraseCount)
 
         phrasePosition = 0
         for tempPhrase in phraseList:
@@ -43,6 +47,7 @@ class phraseCounts:
                     pCount = pCount + 1
                 if len(phrase_Tokens) == matchCount:
                     countList[phrasePosition] = countList[phrasePosition] + 1
+                    self.phraseFrequency.append(tempPhrase)
                     #if len(phrase_Tokens) > 1:
                     #    print("*** MATCHED ***")
                     #    print("tempPhrase : " + tempPhrase)
@@ -52,33 +57,39 @@ class phraseCounts:
             phrasePosition = phrasePosition + 1
 
         self.phraseCount = dict(zip(phraseList, countList))
-        return (self.phraseCount)
+        return (self.phraseFrequency) #(self.phraseCount)
 
+def pltHistogram():
+    x = ["one", "two", "three", "four", "five","one"]
+    y = [3, 5, 9, 10, 10]
 
+    dict1 = dict(zip(x, y))
+    plt.hist(x) #, y)
+    plt.show()
 if __name__ == '__main__':
+    #pltHistogram()
+
+
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
-    print(type(rdf.synonymsList()))
     synonymsList = rdf.synonymsList()
 
-
-    #    fileObject = open(r'C:\Users\srini\UVA-MSDS\DS-6011-CAP\Files\AI08_2016.txt', 'r')
-    #   fileObject = open(r'C:\Users\srini\UVA-MSDS\DS-6011-CAP\Files\A088P.TXT', 'r')
-    fileObject = open(r'C:\Users\srini\UVA-MSDS\DS-6011-CAP\Files\A50P.TXT', 'r')
+    fileObject = open(r'C:\Users\srini\UVA-MSDS\DS-6011-CAP\Files\A50P.TXT', 'r') #AI08_2016.txt, A088P.TXT
 
     data = fileObject.read()
     data.replace(r"\n", " ")
-    # print(data)
+
     nltk_tokens = nltk.word_tokenize(data)
-    #synonymsList = ["National Capital Region","NCR","item entry control"]
 
     phCount = phraseCounts()
     retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
     print(retDict)
 
-    #rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
-    #print(rdf.synonymsList())
+    plt.hist(retDict)  # , y)
+    plt.show()
 
-    #df = pd.DataFrame.from_dict(retDict)
-    #print(df)
+
+
+
+
 
