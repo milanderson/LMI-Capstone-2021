@@ -22,6 +22,7 @@ class phraseCounts:
         self.phraseCount = {}
         self.phraseFrequency=[]
 
+    # Returns a list of matching phrases. Keeping for a backward compatibility. It was replaced with getPhraseFrequencyCount
     def getPhraseCount(self,listPhrases=[],listTokens=[]):
         phraseList = listPhrases
         tokenList = listTokens
@@ -76,7 +77,7 @@ class phraseCounts:
             if (valDict > 0):
                 self.phraseCount[keyDict] = valDict
 
-
+    # Returns a dictionary with matching phrases as keys and frequency as values
     def getPhraseFrequencyCount(self,listPhrases=[],listTokens=[]):
         phraseList = listPhrases
         tokenList = listTokens
@@ -128,24 +129,31 @@ def pltAGraph(dictData):
 
 if __name__ == '__main__':
 
+    # Create an RDF object and read data from an RDF file available in the repository
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
+    # Generate a Synonyms list from the RDF object
     synonymsList = rdf.synonymsList()
 
+    # Read text from the source files for testing.
     filesList = ['a088p.txt','a50p.txt'] #,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
     for fileName in filesList:
         fileObject = open(filePath + fileName, 'r')
 
+        # Read data from the source file
         data = fileObject.read()
         data.replace(r"\n", " ")
 
+        # Create tokens
         nltk_tokens = nltk.word_tokenize(data)
 
+        # Get the matchig phrase count
         phCount = phraseCounts()
         #retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
         retDict = phCount.getPhraseFrequencyCount(synonymsList,nltk_tokens)
 
+        # Display a graph with matching phrase frequency
         pltAGraph(retDict)
 
 
