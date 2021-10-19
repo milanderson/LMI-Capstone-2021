@@ -65,25 +65,17 @@ class phraseCounts:
         self.dictionaryHandler(phraseList, countList)
         return (self.phraseFrequency) #(self.phraseCount)
 
+    # Update non-zero values in a dictionary
     def dictionaryHandler(self,lstPhrases, lstCounts):
-        i = 0
-        print("Before : " + str(len(lstPhrases)))
-        print("Before : " + str(len(lstCounts)))
-        while i < len(lstPhrases):
-            if lstCounts[i] > 0:
-                print("Posistion : " + str(i) + " Phrase : " + lstPhrases[i] + " Count : " + str(lstCounts[i]))
-            else:
-                del lstPhrases[i]
-                del lstCounts[i]
-            i = i + 1
 
-        print("After : " + str(len(lstPhrases)))
-        print("After : " + str(len(lstCounts)))
+        self.phraseCount = {}
 
-        print(lstPhrases)
-        print(lstCounts)
-        self.phraseCount = dict(zip(lstPhrases, lstCounts))
-        print(self.phraseCount)
+        tempDict = dict(zip(lstPhrases, lstCounts))
+
+        for keyDict, valDict in tempDict.items():
+            if (valDict > 0):
+                self.phraseCount[keyDict] = valDict
+
 
     def getPhraseFrequencyCount(self,listPhrases=[],listTokens=[]):
         phraseList = listPhrases
@@ -116,79 +108,33 @@ class phraseCounts:
                 if len(phrase_Tokens) == matchCount:
                     countList[phrasePosition] = countList[phrasePosition] + 1
                     self.phraseFrequency.append(tempPhrase)
-                    if len(phrase_Tokens) > 1:
-                        print("*** MATCHED ***")
-                        print("tempPhrase : " + tempPhrase)
-                        print("compPhrase : " + compPhrase)
+                    #if len(phrase_Tokens) > 1:
+                    #    print("*** MATCHED ***")
+                    #    print("tempPhrase : " + tempPhrase)
+                    #    print("compPhrase : " + compPhrase)
 
                 tPosition = tPosition + 1
             phrasePosition = phrasePosition + 1
 
-        self.phraseCount = dict(zip(phraseList, countList))
         self.dictionaryHandler(phraseList, countList)
         return (self.phraseCount)
 
 
-    def getPhraseFrequencyCount1(self,listPhrases=[],listTokens=[]):
-        phraseList = listPhrases
-        tokenList = listTokens
-
-        self.phraseCount = {}
-        self.phraseFrequency=[]
-
-        countList = [0]*len(phraseList)
-
-        if (len(phraseList) == 0 | len(tokenList) == 0):
-            self.phraseCount = dict(zip(phraseList,countList))
-            return([]) #(self.phraseCount)
-
-        phrasePosition = 0
-        for tempPhrase in phraseList:
-            phrase_Tokens = nltk.word_tokenize(tempPhrase)
-
-            tPosition = 0
-            while tPosition < len(tokenList)-len(phrase_Tokens):
-                compPhrase = ""
-                pCount = 0
-                matchCount = 0
-                while pCount < len(phrase_Tokens):
-                    compPhrase = compPhrase + tokenList[tPosition + pCount]
-                    if phrase_Tokens[pCount].strip() == tokenList[tPosition+pCount].strip():
-                        matchCount = matchCount + 1
-                    pCount = pCount + 1
-                if len(phrase_Tokens) == matchCount:
-                    countList[phrasePosition] = countList[phrasePosition] + 1
-                    self.phraseFrequency.append(tempPhrase)
-                    #if len(phrase_Tokens) > 1:
-                    print("*** MATCHED ***")
-                    print("tempPhrase : " + tempPhrase)
-                    print("compPhrase : " + compPhrase)
-
-                tPosition = tPosition + 1
-            phrasePosition = phrasePosition + 1
-
-        self.phraseCount = dict(zip(phraseList, countList))
-        return (self.phraseCount) # self.phraseFrequency)
-
-def pltHistogram():
-    x = ["one", "two", "three", "four", "five","one"]
-    y = [3, 5, 9, 10, 10]
-
-    dict1 = dict(zip(x, y))
-    plt.hist(x) #, y)
+# Plot a graph
+def pltAGraph(dictData):
+    plt.bar(retDict.keys(), retDict.values(), width=.5)
     plt.show()
-if __name__ == '__main__':
-    #pltHistogram()
 
+
+if __name__ == '__main__':
 
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
     synonymsList = rdf.synonymsList()
 
-    filesList = ['a50p.txt'] #'a088p.txt','a50p.txt'] #,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    filesList = ['a088p.txt','a50p.txt'] #,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
     for fileName in filesList:
-
         fileObject = open(filePath + fileName, 'r')
 
         data = fileObject.read()
@@ -199,23 +145,11 @@ if __name__ == '__main__':
         phCount = phraseCounts()
         #retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
         retDict = phCount.getPhraseFrequencyCount(synonymsList,nltk_tokens)
-        print(retDict)
 
-        newDict = {}
-        for k, v in retDict.items():
-            print(k)
-            print(v)
-            if (v > 0):
-                newDict[k] = v
-
-
-        plt.bar(newDict.keys(), newDict.values(), width=.3)
-        plt.show()
+        pltAGraph(retDict)
 
 
 
-        #plt.hist(retDict)  # , y)
-        #plt.show()
 
 
 
