@@ -19,6 +19,9 @@ def hasTOC(dictionary):
     noTOC = []
 
     string = re.compile("Table of Contents|TABLE OF CONTENTS")
+# string is the name of a Python module, avoid using words like this as variable names. It is also not descriptive
+# If you also want to match for example "Table of contents", it would be more efficient to use the re.IGNORECASE flag 
+# tocRegex = re.compile("table of contents", flags=re.IGNORECASE)
 
     for i, text in enumerate(dictionary["cleaned_text_list"]):
         # Change text from str type to list type
@@ -60,6 +63,12 @@ def sectionSegmentation(docs, TOC=True):
     :param TOC:
     :return:
     """
+# PG: the keyword argument is a flag that tells you if there is a TOC or not. Better call it hasTOC 
+# I would also split this function into three functions
+# - sectionSegmentation (short one that calls one of the next two based on the flag)
+# - sectionSegmentationWithTOC
+# - sectionSegmentationWithoutTOC
+# This makes the intention of the code cleaner
 
     # segmenting text with a Table of Contents
     if TOC:
@@ -105,6 +114,7 @@ def sectionSegmentation(docs, TOC=True):
             i = 0
             for line in table_of_contents:
                 pattern = re.compile('\s*[\.]+\s+[0-9]+')
+# PG: move this out of the for-loop; it's not changing
                 if re.search(pattern, line):
                     sections.append(re.sub(pattern, '', line).rstrip(string.digits))
                     i += 1
@@ -117,9 +127,27 @@ def sectionSegmentation(docs, TOC=True):
                             i += 2
                     except:
                         continue
+# PG: What is the exception you want to capture here? Is it an index error?
+# I'm not sure about this code here. You iterate over the elements of table_of_contents. In each iteration,
+# you check if pattern occurs in the line. If it doesn't you check if the next line is matching the pattern.
+# if it matches the pattern, you combine it with the line. The i is then increased by 2. 
+# I think this isn't working as you would like it to. In the next iteration, the next line becomes the current
+# line again and we will match a second time. That means TOC entries that go over two lines match twice. 
+# Better use a while loop here:
+# i = 0
+# while i < len(table_of_contents):
+#    line = table_of_contents[i]
+#    i += 1
+#    while not re.search(pattern, line):
+#       line = line + table_of_contents[i]
+#       i += 1
+#    sections.append(re.sub(pattern, '', line).rstrip(string.digits)
+# This would also work for TOC entries that require more than two lines. The code expects that the last line in 
+# table_of_contents matches the pattern. If that is not the case, you will get index errors 
 
             # Remove tables or figures from the sections
             table_figure = re.compile("TABLE|Table|table|FIGURE|Figure|figure")
+# use flag re.IGNORECASE 
             sections = [section.lower() for section in sections if not re.search(table_figure, section)]
 
             # Used cleaned_text to first separate out preamble and table of contents
@@ -143,6 +171,9 @@ def sectionSegmentation(docs, TOC=True):
                 previous_section_end = None
                 segmented_text = {}
 
+# PG: do you want to iterate over sections in pairs? In this case, you could use
+# for section1, section2 in zip(sections[:-1], sections[1:]):
+# Looking at the code, this seems not to be the case. The first and last iteration are handled differently. 
                 for i, section in enumerate(sections):
                     if i == 0:
                         start = section_indices[section][0][1]
@@ -152,6 +183,7 @@ def sectionSegmentation(docs, TOC=True):
                         print(f"Added {section} to the segemented_text")
                         previous_section_end = end
                     elif i < (len(sections) - 1) and i > 0:
+# and i > 0 is redundant. The case i == 0 is already handled in the first if block
                         index = section_indices[section]
                         # handling the case when there wasn't an index found
                         if len(index) == 0:
@@ -166,12 +198,17 @@ def sectionSegmentation(docs, TOC=True):
                                 check = True
                                 while check:
                                     if section_indices[sections[i + 1 + count]]:
-                                        check = False
+                                        check = False                                        
                                     else:
                                         count += 1
                                     if count == 4:
                                         break
-
+# PG: This code is overly complex
+# while count < 4:
+#     count += 1
+#     if section_indices[sections[i + 1 + count]]:
+#         break
+# The 4 is a magic number - comment why you decide to stop checking at four.
                             start = index[0][0]
                             # adding count to the indexing to account for missing sections
                             end = section_indices[sections[i + 1 + count]][0][0]
@@ -179,6 +216,8 @@ def sectionSegmentation(docs, TOC=True):
                             segmented_text[section] = cleaned_text[start:end]
                             print(f"Added {section} to the segemented_text")
                             previous_section_end = end
+# PG: Should we make sure that we skip cases where i <= previous_section_end? 
+# This will happen when next section index is empty.
                     elif i == (len(sections) - 1):
                         index = section_indices[section]
                         # handling the case where section index is empty
@@ -239,6 +278,14 @@ def sectionSegmentation(docs, TOC=True):
                     else:
                         segmented_text[sections[j]] = " ".join(text[start:])
                         print(f"Added {sections[j]} to the segemented_text")
+# I think this could be written as:
+# 
+# for j, (start, end) in enumerate(zip(section_index[:-1], section_index[1:])):
+#    segmented_text[sections[j]] = " ".join(text[start:end])
+# segmented_text[sections[-1]] = " ".join(text[section_index[-1]:])
+#
+# Not sure if this any clearer though
+
 
                 final_segmented_text.append(segmented_text)
                 print("Document Complete")
