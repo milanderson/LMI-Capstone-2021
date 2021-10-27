@@ -11,23 +11,15 @@ def pltHistogram():
     plt.bar(dict1.keys(), dict1.values(), width=.5, color='g')
     plt.show()
 
+# Concept object class to store all phrase counts
 class Concept():
-    '''
-    prefLables = {}
-    altLabels = {}
-    acronyms = {}
-    synonyms = {}
-    antonyms = {}
-    broaders = {}
-    narrowers = {}
-    related = {}
-    about = ""
-    '''
+
     def __init__(self,aboutText=None):
         if aboutText == None:
             self.about = ""
         else:
             self.about = aboutText
+
         self.prefLables = {}
         self.altLabels = {}
         self.acronyms = {}
@@ -38,7 +30,6 @@ class Concept():
         self.related = {}
 
     def addPrefLabel(self,labelText,labelCount):
-
         self.prefLables[labelText] = labelCount
 
     def addAltLabel(self,labelText,labelCount):
@@ -62,9 +53,6 @@ class Concept():
     def addRalted(self,labelText,labelCount):
         self.related[labelText] = labelCount
 
-
-
-
 if __name__ == '__main__':
     #pltHistogram()
     headers = {
@@ -83,48 +71,36 @@ if __name__ == '__main__':
 
         print("*** CONCEPT *** : " + pref.attrs['rdf:about'])
         print("==================")
-        print("prefLable : " + pref.find("prefLabel").text)
+        #print("prefLable : " + pref.find("prefLabel").text)
         #print("altLable : " + pref.find("altLabel").text)
         #print("acronym : " + pref.find("acronym").text)
 
         # pref.find_all("synonym")[0].text
         conceptObj = Concept(pref.attrs['rdf:about'])
 
-        print("altLable->")
-        for item in pref.find_all('altLable'):
-            print(item.text)
+        for item in pref.find_all('prefLabel'):
+            conceptObj.addPrefLabel(item.text, 0)
+
+        for item in pref.find_all('altLabel'):
             conceptObj.addAltLabel(item.text,0)
 
-        print("acronym->")
         for item in pref.find_all('acronym'):
-            print(item.text)
             conceptObj.addAcronyms(item.text,0)
 
-        print("Synonyms->")
         for item in pref.find_all('synonym'):
-            print(item.text)
             conceptObj.addSynonyms(item.text,0)
 
-        print("Broader->")
         for item in pref.find_all('broader'):
-            print(item.text)
             conceptObj.addBroaders(item.text,0)
 
-        print("Narrower->")
         for item in pref.find_all('narrower'):
-            print(item.text)
             conceptObj.addNarrowers(item.text,0)
 
-        print("Antonyms->")
         for item in pref.find_all('antonyms'):
-            print(item.text)
             conceptObj.addAntonyms(item.text,0)
 
-        print("Related->")
         for item in pref.find_all('related'):
-            print(item.text)
             conceptObj.addRalted(item.text,0)
-
 
         conceptList.append(conceptObj)
 
