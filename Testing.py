@@ -12,6 +12,7 @@ def pltHistogram():
     plt.show()
 
 class Concept():
+    '''
     prefLables = {}
     altLabels = {}
     acronyms = {}
@@ -21,43 +22,45 @@ class Concept():
     narrowers = {}
     related = {}
     about = ""
+    '''
     def __init__(self,aboutText=None):
         if aboutText == None:
-            about = ""
+            self.about = ""
         else:
-            about = aboutText
-        prefLables = {}
-        altLabels = {}
-        acronyms = {}
-        synonyms = {}
-        antonyms = {}
-        broaders = {}
-        narrowers = {}
-        related = {}
+            self.about = aboutText
+        self.prefLables = {}
+        self.altLabels = {}
+        self.acronyms = {}
+        self.synonyms = {}
+        self.antonyms = {}
+        self.broaders = {}
+        self.narrowers = {}
+        self.related = {}
 
-    def addPrefLabel(self,labelText,labelText):
-        self.prefLables[labelText] = labelText
+    def addPrefLabel(self,labelText,labelCount):
 
-    def addAltLabel(self,labelText,labelText):
-        self.altLabels[labelText] = labelText
+        self.prefLables[labelText] = labelCount
 
-    def addAcronyms(self,labelText,labelText):
-        self.acronyms[labelText] = labelText
+    def addAltLabel(self,labelText,labelCount):
+        self.altLabels[labelText] = labelCount
 
-    def addSynonyms(self,labelText,labelText):
-        self.synonyms[labelText] = labelText
+    def addAcronyms(self,labelText,labelCount):
+        self.acronyms[labelText] = labelCount
 
-    def addAntonyms(self,labelText,labelText):
-        self.antonyms[labelText] = labelText
+    def addSynonyms(self,labelText,labelCount):
+        self.synonyms[labelText] = labelCount
 
-    def addBroaders(self,labelText,labelText):
-        self.broaders[labelText] = labelText
+    def addAntonyms(self,labelText,labelCount):
+        self.antonyms[labelText] = labelCount
 
-    def addNarrowers(self,labelText,labelText):
-        self.narrowers[labelText] = labelText
+    def addBroaders(self,labelText,labelCount):
+        self.broaders[labelText] = labelCount
 
-    def addRalted(self,labelText,labelText):
-        self.related[labelText] = labelText
+    def addNarrowers(self,labelText,labelCount):
+        self.narrowers[labelText] = labelCount
+
+    def addRalted(self,labelText,labelCount):
+        self.related[labelText] = labelCount
 
 
 
@@ -85,32 +88,79 @@ if __name__ == '__main__':
         #print("acronym : " + pref.find("acronym").text)
 
         # pref.find_all("synonym")[0].text
-        conceptObj = Concept()
+        conceptObj = Concept(pref.attrs['rdf:about'])
 
         print("altLable->")
         for item in pref.find_all('altLable'):
             print(item.text)
+            conceptObj.addAltLabel(item.text,0)
+
         print("acronym->")
         for item in pref.find_all('acronym'):
             print(item.text)
+            conceptObj.addAcronyms(item.text,0)
 
         print("Synonyms->")
         for item in pref.find_all('synonym'):
             print(item.text)
+            conceptObj.addSynonyms(item.text,0)
+
         print("Broader->")
         for item in pref.find_all('broader'):
             print(item.text)
+            conceptObj.addBroaders(item.text,0)
+
         print("Narrower->")
         for item in pref.find_all('narrower'):
             print(item.text)
+            conceptObj.addNarrowers(item.text,0)
+
         print("Antonyms->")
         for item in pref.find_all('antonyms'):
             print(item.text)
+            conceptObj.addAntonyms(item.text,0)
+
         print("Related->")
         for item in pref.find_all('related'):
             print(item.text)
+            conceptObj.addRalted(item.text,0)
 
 
+        conceptList.append(conceptObj)
+
+    for con in conceptList:
+        print("================ " )
+        print("*** CONCEPT *** : " + con.about)
+        print("================ " )
+        if (len(con.prefLables) > 0):
+            print("---> PrefLables : " )
+            print(con.prefLables)
+
+        if (len(con.altLabels) > 0):
+            print("---> AltLabels : " )
+            print(con.altLabels)
+
+        if (len(con.acronyms) > 0):
+            print("---> Acronyms : " )
+            print(con.acronyms)
+        if (len(con.synonyms) > 0):
+            print("---> Synonyms : " )
+            print(con.synonyms)
+        if (len(con.antonyms) > 0):
+            print("---> Antonyms : " )
+            print(con.antonyms)
+        if (len(con.broaders) > 0):
+            print("---> Broaders : " )
+            print(con.broaders)
+        if (len(con.narrowers) > 0):
+            print("---> Narrowers : " )
+            print(con.narrowers)
+        if (len(con.related) > 0):
+            print("---> Related : " )
+            print(con.related)
+
+
+        #print(con.prefLables)
 '''
     synonymsList = xmlRDFString.find_all('synonym')
     narrowList = xmlRDFString.find_all('narrower')
