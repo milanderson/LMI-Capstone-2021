@@ -1,18 +1,15 @@
-import matplotlib.pyplot as plt
+'''
+* Module  : contactsWrapper
+* Purpose : A wrapper to create contacts objects with all phrases and matching counts
+*           Reads the RDF file, create contacts and updates counts using the other modules functionality
+* Created : Oct-27-2021 : Srinivas -
+'''
+
 import requests
 import bs4
 from rdfHandler import rdfObject
 from PhraseCounts import phraseCounts
 import nltk
-
-def pltHistogram():
-    x = ["one", "two", "three", "four", "five", "one"]
-    y = [3, 5, 9, 10, 10]
-
-    dict1 = dict(zip(x, y))
-    #plt.hist(dict1) # x)  # , y)
-    plt.bar(dict1.keys(), dict1.values(), width=.5, color='g')
-    plt.show()
 
 # Concept object class to store all phrase counts
 class Concept():
@@ -23,6 +20,7 @@ class Concept():
         else:
             self.about = aboutText
 
+        # Initialize variables to track various phrase counts
         self.prefLables = {}
         self.altLabels = {}
         self.acronyms = {}
@@ -32,42 +30,48 @@ class Concept():
         self.narrowers = {}
         self.related = {}
 
+    # add a new preLabel phrase to the prefLabels dictionary
     def addPrefLabel(self,labelText,labelCount):
         self.prefLables[labelText] = labelCount
 
+    # add a new altLabel phrase to the altLabels dictionary
     def addAltLabel(self,labelText,labelCount):
         self.altLabels[labelText] = labelCount
 
+    # add a new acronym phrase to the Acronyms dictionary
     def addAcronyms(self,labelText,labelCount):
         self.acronyms[labelText] = labelCount
 
+    # add a new synonym phrase to the Synonyms dictionary
     def addSynonyms(self,labelText,labelCount):
         self.synonyms[labelText] = labelCount
 
+    # add a new antonym phrase to the Antonyms dictionary
     def addAntonyms(self,labelText,labelCount):
         self.antonyms[labelText] = labelCount
 
+    # add a new broader phrase to the Broaders dictionary
     def addBroaders(self,labelText,labelCount):
         self.broaders[labelText] = labelCount
 
+    # add a new narrower phrase to the Narrowers dictionary
     def addNarrowers(self,labelText,labelCount):
         self.narrowers[labelText] = labelCount
 
+    # add a new related phrase to the Ralated dictionary
     def addRalted(self,labelText,labelCount):
         self.related[labelText] = labelCount
 
+    # Update acronyms count
     def updateAcronyms(self,labelText,newCount):
         self.acronyms[labelText] = newCount
 
 if __name__ == '__main__':
     #pltHistogram()
-    headers = {
-        'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
+    headers = {'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
 
     reqString = requests.get('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', headers=headers)
-    #print(reqString.text)
     xmlRDFString = bs4.BeautifulSoup(reqString.text, "xml")
-    #print(xmlRDFString)
     print([f.string for f in xmlRDFString.find_all('acronym')])
 
 
@@ -168,24 +172,9 @@ if __name__ == '__main__':
         print(con.about)
         print(con.acronyms)
         for key in con.acronyms:
+            print(key)
 
 
-
-        con.updateAcronyms()
+        #con.updateAcronyms()
     #print(con.prefLables)
-'''
-    synonymsList = xmlRDFString.find_all('synonym')
-    narrowList = xmlRDFString.find_all('narrower')
-    broaderList = xmlRDFString.find_all('borader')
-    relatedList = xmlRDFString.find_all('related')
-    conceptCount = 0
-    for pref in xmlRDFString.find_all('prefLabel'):
-        print("Concept")
-        print(pref.text)
-        print(pref.att)
-        children = pref.findChildren("synonym", recursive=False)
-        for child in children:
-            print("Child")
-            print(child)
-        conceptCount = conceptCount + 1
-'''
+
