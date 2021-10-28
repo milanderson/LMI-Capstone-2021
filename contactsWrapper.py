@@ -72,22 +72,17 @@ if __name__ == '__main__':
 
     reqString = requests.get('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', headers=headers)
     xmlRDFString = bs4.BeautifulSoup(reqString.text, "xml")
-    print([f.string for f in xmlRDFString.find_all('acronym')])
 
-
+    # Create and initialize a list to store Concept objects
     conceptList = []
 
+    # Search for all "concept" tags to create Concpet objects list
     for pref in xmlRDFString.find_all('Concept'):
 
-        #print("*** CONCEPT *** : " + pref.attrs['rdf:about'])
-        #print("==================")
-        #print("prefLable : " + pref.find("prefLabel").text)
-        #print("altLable : " + pref.find("altLabel").text)
-        #print("acronym : " + pref.find("acronym").text)
-
-        # pref.find_all("synonym")[0].text
+        # rdf:about an attribute to identify a concept object
         conceptObj = Concept(pref.attrs['rdf:about'])
 
+        # Loop through the other phrases available add to the concept object
         for item in pref.find_all('prefLabel'):
             conceptObj.addPrefLabel(item.text, 0)
 

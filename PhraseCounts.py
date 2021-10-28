@@ -3,6 +3,7 @@
 * Purpose : Read a document and get the counts of matching of given phrases (multi-word)
 *           Read the document and search for matching phrases (multi-word)
 *           Get Phrase Counts
+* Changes : Oct-26-2021 : Srinivas - Added "Concept" class to get the phrase count dictionaries by phrase type (synonym, acronym, etc,m)
 '''
 
 import tokenize
@@ -12,11 +13,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
 # class to handle the phrase counts and related operations
 class phraseCounts:
-    phraseCount = {}
-    phraseFrequency = []
+    #phraseCount = {}
+    #phraseFrequency = []
 
     def __int__(self):
         self.phraseCount = {}
@@ -73,9 +73,12 @@ class phraseCounts:
 
         tempDict = dict(zip(lstPhrases, lstCounts))
 
+        keyItem = 0
         for keyDict, valDict in tempDict.items():
             if (valDict > 0):
+                #self.phraseCount[keyItem] = valDict
                 self.phraseCount[keyDict] = valDict
+            keyItem = keyItem + 1
 
     # Returns a dictionary with matching phrases as keys and frequency as values
     def getPhraseFrequencyCount(self,listPhrases=[],listTokens=[]):
@@ -123,8 +126,22 @@ class phraseCounts:
 
 # Plot a graph
 def pltAGraph(dictData):
-    plt.bar(retDict.keys(), retDict.values(), width=.5)
+    x = list(retDict.keys())
+    y = list(retDict.values())
+    #y = ['one', 'two', 'three', 'four', 'five']
+    #x = [5, 24, 35, 67, 12]
+    print(type(x))
+    print(type(y))
+    print(retDict.keys())
+    print(retDict.values())
+
+    plt.barh(x,y)
     plt.show()
+
+    #plt.bar(retDict.keys(), retDict.values(), width=.5)
+    #plt.barh(retDict.values(),retDict.keys())
+    #plt.barh(retDict.values(),retDict.keys())
+    #plt.show()
 
 
 if __name__ == '__main__':
@@ -133,10 +150,10 @@ if __name__ == '__main__':
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
     # Generate a Synonyms list from the RDF object
-    synonymsList = rdf.synonymsList()
-
+    #synonymsList = rdf.synonymsList()
+    synonymsList = rdf.customTagList("synonym")
     # Read text from the source files for testing.
-    filesList = ['a088p.txt','a50p.txt'] #,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    filesList = ['a50p.txt','a088p.txt'] #,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
     for fileName in filesList:
         fileObject = open(filePath + fileName, 'r')

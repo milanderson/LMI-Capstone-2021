@@ -5,6 +5,8 @@
 *           Get Synonyms list etc.,
 '''
 #from bs4 import beautifulsoup
+#import beautifulsoup4
+
 import lxml as lxml
 import numpy
 import pandas as pd
@@ -12,29 +14,22 @@ import requests
 import bs4
 
 
-#import beautifulsoup4
-
 # RDF Class
 class rdfObject:
-    originalRDFString = None
-    modifiedRDFString = None
-    xmlRDFString = None
-    charList = []
-
     # Default constructor
     def __init__(self, rdfSource, type="web"):
         if (type == "web"):
-            headers = {
-                'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
+            headers = {'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
             reqString = requests.get(rdfSource, headers=headers)
             self.originalRDFString = reqString.text
             self.findHTMLChars()
             self.replaceHTMLStrings()
             self.parseXMLStrings()
+            self.charList = []
 
     # Look for all special character codes found in the document and make list for further processing
     def findHTMLChars(self):
-        charList = []
+        self.charList = []
         rdfLength = len(self.originalRDFString)
 
         stPos = 0
@@ -50,9 +45,6 @@ class rdfObject:
     def replaceHTMLStrings(self):
         self.modifiedRDFString = self.originalRDFString
 
-        # replacing ampersand code with & (special case. It is not following the ASCII codes pattern)
-        self.modifiedRDFString = self.modifiedRDFString.replace("&amp;", "&")
-
         # Loop through the list of strings found and replace in the RDFString
         for s in self.charList:
             # if the last character is ";", take only two digits for ASCII character (&#40;)
@@ -61,6 +53,9 @@ class rdfObject:
                 self.modifiedRDFString = self.modifiedRDFString.replace(s.strip(), chr(int(s[2:4])))
             else:
                 self.modifiedRDFString = self.modifiedRDFString.replace(s[2:5] + ';', chr(int(s[2:5])))
+
+        # replacing ampersand code with & (special case. It is not following the ASCII codes pattern)
+        self.modifiedRDFString = self.modifiedRDFString.replace("&amp;", "&")
 
     # Parse the modified RDF string as an XML parser and store in a separate string for further processing
     def parseXMLStrings(self):
@@ -84,13 +79,30 @@ class rdfObject:
         f.write(self.modifiedRDFString)
         f.close()
 
-
 if __name__ == '__main__':
     print('RDF file handling functionality...')
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
+
+    print("\n*** SYNONYMS LIST ***\n")
     print(rdf.synonymsList())
-    print(rdf.customTagList("synonym"))
+    print("\n*** ACRONYMS LIST ***\n")
     print(rdf.acronymsList())
-    print(rdf.customTagList("acronym"))
-    rdf.saveRDFFile("c:\\testing\\DASD_SKOS_Ontology_mod.rdf")
+
+    print("\n*** PREF-LABELS LIST ***\n")
+    print(rdf.customTagList("prefLabel"))
+
+    print("\n*** ALT-LABELS LIST ***\n")
+    print(rdf.customTagList("altLabel"))
+
+    print("\n*** BROADER LIST ***\n")
+    print(rdf.customTagList("broader"))
+
+    print("\n*** NARROWER LIST ***\n")
+    print(rdf.customTagList("narrower"))
+
+    print("\n*** RELATED LIST ***\n")
+    print(rdf.customTagList("related"))
+    # This code is to save the modified RDF file to a new file with changes. We are not using this functionality for now.
+    #rdf.saveRDFFile("c:\\testing\\DASD_SKOS_Ontology_mod.rdf")
+
     print('Completed Successfully')
