@@ -116,12 +116,13 @@ if __name__ == '__main__':
             conceptObj.addRalted(item.text,0)
 
         conceptList.append(conceptObj)
+
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
     # Get all acronym phrases
     phraseList = rdf.customTagList("acronym")
 
     # Read data files corpus and load matching acronym phrases
-    filesList = ['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    filesList = ['a50p.txt'] #['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
     for fileName in filesList:
         fileObject = open(filePath + fileName, 'r')
@@ -193,11 +194,11 @@ if __name__ == '__main__':
     for count, con in enumerate(conceptList):
         print("Concept # " + str(count))
         #print(con.about)
-        print("prelabel")
-        print(con.prefLables)
-        print("altlabel")
+        print("\tprelabel")
+        print("\t" + con.prefLables)
+        print("\taltlabel")
         print(con.altLabels)
-        print("acronym")
+        print("\tacronym")
         print(con.acronyms)
 
 
