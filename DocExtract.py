@@ -337,16 +337,23 @@ class DocExtract():
     def getGlossary(self, raw_text):
         glossary = {}
         if 'glossary' in raw_text.lower():
-            nlp_obj = nlp(raw_text)
-            sentences = list(nlp_obj.sents)
+            #just get the second half of the document because that's where the glossary is, and we're going
+            #to split on the first instance of 'glossary' and we don't want the table of contents glossary
+            second_half = raw_text[len(raw_text)//2:]
+            after_glossary = second_half.split("GLOSSARY", 1)[-1]
+            sentences = after_glossary.split(". ")
             for i in range(len(sentences)):
-                if sentences[i].text.islower() and len(sentences[i].text.strip(' ')) > 3 and len(sentences[i].text.split()) < 5:
-                    try:
-                        if True in [char.isdigit() for char in sentences[i].text.strip(' ')]:
+                if sentences[i].isupper() and sentences[i].strip() not in ['ACRONYMS', 'DEFINITIONS'] and re.match('^[^.]*$', sentences[i]) and len(sentences[i-1]) > 5:
+                    glossary[sentences[i].translate(table).strip()] = sentences[i+1]
+                if sentences[i].islower() and len(sentences[i].strip(' ')) > 3 and len(sentences[i].split()) < 5:
+                    if re.match('(?:[A-Z]\.){1,}(?:[A-Z])', sentences[i-1].split()[-1]):
+                        if sentences[i-2].islower() and len(sentences[i-2].strip(' ')) > 3 and len(sentences[i-2].split()) < 5:
+                            glossary[sentences[i].translate(table).strip()] = sentences[i + 1]
+                        else:
                             continue
-                        glossary[sentences[i].text.translate(table).strip()] = sentences[i+1].text.strip()
-                    except:
+                    if True in [char.isdigit() for char in sentences[i].strip(' ')]:
                         continue
+                    glossary[sentences[i].translate(table).strip()] = sentences[i + 1]
                 i += 1
         return json.dumps(glossary)
 
