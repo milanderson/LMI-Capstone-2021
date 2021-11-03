@@ -2,13 +2,14 @@ import DocExtract
 import re
 import string
 import pandas as pd
+import json
 
 
 # allDocs = DocExtract.DocExtract()
 # allDocs.get_text(doc_type='all', test=True)
 
 
-def hasTOC(dictionary):
+def hasTOC(df):
     """
 
     :param dictionary:
@@ -18,9 +19,10 @@ def hasTOC(dictionary):
     TOC = []
     noTOC = []
 
-    string = re.compile("Table of Contents|TABLE OF CONTENTS")
+    pattern = re.compile("table of contents", flags=re.IGNORECASE)
 
-    for i, text in enumerate(dictionary["cleaned_text_list"]):
+    for i, text in enumerate(df["cleaned_text_list"]):
+        # text = json.loads(text)
         # Change text from str type to list type
         text = text.lstrip("[")
         text = text.rstrip("]")
@@ -33,18 +35,18 @@ def hasTOC(dictionary):
             # Search for table of contents, append to appropriate list
             k = k.lstrip("'")
             k = k.replace(" '", "", 1)
-            search = re.search(string, k)
+            search = re.search(pattern, k)
             new_text.append(k)
 
             # Search for table of contents, append to appropriate list
-            search = re.search(string, k)
+            search = re.search(pattern, k)
 
             if not search:
                 noMatch.append(j)
             else:
                 match.append(j)
         if match:
-            TOC.append((new_text, dictionary["cleaned_text"][i], match[0]))
+            TOC.append((new_text, df["cleaned_text"][i], match[0]))
         elif noMatch:
             noTOC.append(new_text)
         else:
@@ -70,20 +72,16 @@ def sectionSegmentation(docs, TOC=True):
             # Pull the first section index to know when the Table of contents ends
             # Cleans any extra periods or numbers after the text
             first_section = re.sub(r'\s*[\.]+\s*[0-9]+', '', text[index + 1].lower())
-            print(f"The first section title is: {first_section}")
 
             # Finds first mention of first section after the TOC
             section_index = [c for c, k in enumerate(text) if re.search(first_section, k.lower(), re.MULTILINE)]
             if len(section_index) == 1:
-                print("Beginning of first section not found. Trying again. . .")
                 first_section = re.sub(r'[^a-zA-Z.\d\s]', '', first_section)
                 first_section = re.sub(r'\s\s', ' ', first_section)
-                print(f"The (cleaner) first section title is: {first_section}")
                 section_index = [c for c, k in enumerate(text) if re.search(first_section, k.lower(), re.MULTILINE)]
 
             # Looking for Enclosure in the first section title - create unique case for these since they always fail
             if re.match(r"enclosure", first_section):
-                print("Enclosure format detected. Attempting one more time. . .")
                 first_section = first_section.split()
                 enclosure = re.compile(first_section[0].strip() + " " + first_section[1].strip())
                 section_index = [c for c, k in enumerate(text) if re.search(enclosure, k.lower())]
@@ -103,31 +101,36 @@ def sectionSegmentation(docs, TOC=True):
             # Create list of sections from Table of Contents
             sections = []
             i = 0
-            for line in table_of_contents:
-                pattern = re.compile('\s*[\.]+\s+[0-9]+')
-                if re.search(pattern, line):
-                    sections.append(re.sub(pattern, '', line).rstrip(string.digits))
-                    i += 1
-                else:
+            pattern = re.compile('\s*[\.]+\s+[0-9]+')
+            failed = False
+            while i < len(table_of_contents):
+                line = table_of_contents[i]
+                i += 1
+                while not re.search(pattern, line):
                     try:
-                        if re.search(pattern, table_of_contents[i + 1]):
-                            new_line = line + re.sub(pattern, '', table_of_contents[i + 1]).rstrip(string.digits)
-                            print(new_line)
-                            sections.append(new_line)
-                            i += 2
-                    except:
-                        continue
+                        line = line + table_of_contents[i]
+                        i += 1
+                    except IndexError:
+                        failed = True
+                        break
+                sections.append(re.sub(pattern, '', line).rstrip(string.digits))
+
+            if failed:
+                print("Document unable to be segmented.")
+                print("\n")
+                print("------------------------------------------------------------------------------")
+                print("\n")
+                unsegmented_count += 1
+                continue
 
             # Remove tables or figures from the sections
-            table_figure = re.compile("TABLE|Table|table|FIGURE|Figure|figure")
+            table_figure = re.compile("table|figure", flags=re.IGNORECASE)
             sections = [section.lower() for section in sections if not re.search(table_figure, section)]
 
             # Used cleaned_text to first separate out preamble and table of contents
             try:
                 segmented_text = {"Preamble": cleaned_text[:index]}
-                print("Added Preamble to the segmented_text.")
                 segmented_text["Table of Contents"] = cleaned_text[index:section_index[1]]
-                print("Added Table of Contents to the segmented_text.")
 
                 cleaned_text = cleaned_text[section_index[1]:]
 
@@ -149,7 +152,6 @@ def sectionSegmentation(docs, TOC=True):
                         end = section_indices[sections[i + 1]][0][1]
 
                         segmented_text[section] = cleaned_text[start:end]
-                        print(f"Added {section} to the segemented_text")
                         previous_section_end = end
                     elif i < (len(sections) - 1) and i > 0:
                         index = section_indices[section]
@@ -177,7 +179,6 @@ def sectionSegmentation(docs, TOC=True):
                             end = section_indices[sections[i + 1 + count]][0][0]
 
                             segmented_text[section] = cleaned_text[start:end]
-                            print(f"Added {section} to the segemented_text")
                             previous_section_end = end
                     elif i == (len(sections) - 1):
                         index = section_indices[section]
@@ -185,11 +186,9 @@ def sectionSegmentation(docs, TOC=True):
                         if len(index) == 0:
                             start = previous_section_end
                             segmented_text[section] = cleaned_text[start:]
-                            print(f"Added {section} to the segemented_text")
                         else:
                             start = index[0][0]
                             segmented_text[section] = cleaned_text[start:]
-                            print(f"Added {section} to the segemented_text")
             except:
                 unsegmented_count += 1
                 print("Document unable to be segmented.")
@@ -197,12 +196,19 @@ def sectionSegmentation(docs, TOC=True):
                 print("------------------------------------------------------------------------------")
                 print("\n")
                 continue
-
-            final_segmented_text.append(segmented_text)
-            print("Document Complete")
-            print("\n")
-            print("------------------------------------------------------------------------------")
-            print("\n")
+            if segmented_text:
+                final_segmented_text.append(segmented_text)
+                print("Document Complete")
+                print("\n")
+                print("------------------------------------------------------------------------------")
+                print("\n")
+            else:
+                unsegmented_count += 1
+                print("Document unable to be segmented.")
+                print("\n")
+                print("------------------------------------------------------------------------------")
+                print("\n")
+                continue
 
         return final_segmented_text, unsegmented_count
 
@@ -228,17 +234,14 @@ def sectionSegmentation(docs, TOC=True):
             segmented_text = {}
             try:
                 segmented_text["Preamble"] = " ".join(text[:section_index[0]])
-                print("Added Preamble to the segmented_text")
 
                 for j, k in enumerate(section_index):
                     start = k
                     if j < (len(section_index) - 1):
                         end = section_index[j + 1]
                         segmented_text[sections[j]] = " ".join(text[start:end])
-                        print(f"Added {sections[j]} to the segemented_text")
                     else:
                         segmented_text[sections[j]] = " ".join(text[start:])
-                        print(f"Added {sections[j]} to the segemented_text")
 
                 final_segmented_text.append(segmented_text)
                 print("Document Complete")
@@ -251,6 +254,7 @@ def sectionSegmentation(docs, TOC=True):
                 print("\n")
                 print("------------------------------------------------------------------------------")
                 print("\n")
+                continue
         return final_segmented_text, unsegmented_count
 
 
@@ -271,6 +275,10 @@ if __name__ == "__main__":
 
     segmented_noTOC, unsegmented_count_noTOC = sectionSegmentation(noTOC, TOC=False)
     segmented_TOC, unsegmented_count_TOC = sectionSegmentation(TOC, TOC=True)
+
+    print(f"Total number of documents: {len(allDocs)}")
+    print(f"Total TOC documents: {len(TOC)}")
+    print(f"Total noTOC documents: {len(noTOC)}")
 
     print("\n")
     print("-------------------------------------------------------------")
