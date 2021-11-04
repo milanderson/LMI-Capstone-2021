@@ -143,7 +143,24 @@ def pltAGraph(dictData):
     #plt.barh(retDict.values(),retDict.keys())
     #plt.show()
 
+# Plot a histogram
+def pltAHistogram(dictData):
+    #x = list(retDict.keys())
+    x = list(retDict.values())
+    #y = ['one', 'two', 'three', 'four', 'five']
+    #x = [5, 24, 35, 67, 12]
+    print(type(x))
+    #print(type(y))
+    print(retDict.keys())
+    print(retDict.values())
 
+    plt.hist(x,bins = 10)
+    plt.show()
+
+    #plt.bar(retDict.keys(), retDict.values(), width=.5)
+    #plt.barh(retDict.values(),retDict.keys())
+    #plt.barh(retDict.values(),retDict.keys())
+    #plt.show()
 if __name__ == '__main__':
 
     # Create an RDF object and read data from an RDF file available in the repository
@@ -172,6 +189,7 @@ if __name__ == '__main__':
 
         # Display a graph with matching phrase frequency
         pltAGraph(retDict)
+        pltAHistogram(retDict)
 
 
 

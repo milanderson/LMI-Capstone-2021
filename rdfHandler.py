@@ -3,6 +3,8 @@
 * Purpose : To handle functionality related to rdfFile processing.
 *           Reading an RDF File from the internet source, replace HTML characters with ASCII,
 *           Get Synonyms list etc.,
+*           Added a method to get any custom phrase count along with other predefined methods to get
+*           standard phrases like Synonyms list, Acronyms list etc.,
 '''
 #from bs4 import beautifulsoup
 #import beautifulsoup4
@@ -85,8 +87,11 @@ if __name__ == '__main__':
 
     print("\n*** SYNONYMS LIST ***\n")
     print(rdf.synonymsList())
+    print("\n*** SYNONYMS LIST WITH CUSTOM-TAG-LIST METHOD ***\n")
+    print(rdf.customTagList("synonym"))
     print("\n*** ACRONYMS LIST ***\n")
     print(rdf.acronymsList())
+
 
     print("\n*** PREF-LABELS LIST ***\n")
     print(rdf.customTagList("prefLabel"))

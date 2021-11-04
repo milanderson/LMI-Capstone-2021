@@ -122,7 +122,7 @@ if __name__ == '__main__':
     phraseList = rdf.customTagList("acronym")
 
     # Read data files corpus and load matching acronym phrases
-    filesList = ['a50p.txt'] #['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    filesList = ['a088p.txt'] #['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
     for fileName in filesList:
         fileObject = open(filePath + fileName, 'r')
@@ -163,7 +163,8 @@ if __name__ == '__main__':
     phraseList = rdf.customTagList("prefLabel")
     retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
 
-    # Loop through the concepts list and update the corresponding matching acronym phrase count in the concept object list
+    # Loop through the concepts list and update the corresponding matching acronym phrase count
+    # in the concept object list
     for count,con in enumerate(conceptList):
         for key in con.prefLables:
             #print(key)
@@ -179,7 +180,8 @@ if __name__ == '__main__':
     phraseList = rdf.customTagList("altLabel")
     retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
 
-    # Loop through the concepts list and update the corresponding matching acronym phrase count in the concept object list
+    # Loop through the concepts list and update the corresponding matching acronym phrase count
+    # in the concept object list
     for count, con in enumerate(conceptList):
         for key in con.altLabels:
             # print(key)
@@ -195,7 +197,7 @@ if __name__ == '__main__':
         print("Concept # " + str(count))
         #print(con.about)
         print("\tprelabel")
-        print("\t" + con.prefLables)
+        print(con.prefLables)
         print("\taltlabel")
         print(con.altLabels)
         print("\tacronym")
