@@ -8,7 +8,7 @@ import json
 from collections import defaultdict
 import string
 import spacy
-nlp = spacy.load('en_core_web_sm')
+nlp = spacy.load('en_core_web_lg')
 table = str.maketrans(dict.fromkeys(string.punctuation))
 
 class DocExtract():
@@ -41,122 +41,24 @@ class DocExtract():
         :return: Cleaned Text in string format
         '''
         #break down text to lines
-        line_list = text.split('\r')
-
-        #Separates lines of the document text by the return character (\r), creates pattern for the new line character (\n)
-        no_newLine = [re.sub('\s*\n\s*', '', i) for i in line_list]
-
-        text_lines = [i for i in no_newLine if i != '']
+        line_list = text.split('\r\n')
 
         # Pulling the date from the first line of the document
         # TODO: Modify header matching to add a couple different cases instead of assuming one header
         #       style for all documents
         # Assumes the first line follows the format: Some Text, Date
-        pattern = re.search("[a-zA-Z][\s][0-9]{1,2},[\s][0-9]{4}", text_lines[0])
-
-        # If pattern isn't found, return list of text (for section segmentation) and cleaned text with lines rejoined
-        if not pattern:
-            print("Unable to remove headers and footers.")
-            self.cleaned_text_list = text_lines
-            return " ".join(text_lines), text_lines
-
-        # A list to hold the indices in final_list that contain headers
-        match_index = [i for i, s in enumerate(text_lines) if re.search(pattern.group(), s)]
-
-        # Create a list of dictionaries with the text as the key and the index as the value
-        # Used to create a defaultdict
-        headers_duplicates = [{'text': text_lines[i], 'index': i} for i in match_index]
+        pattern = ".*[0-9]{1,2},[\s][0-9]{4}"
 
         # Create a dictionary with non-duplicate keys and a list of indices as the value
         headers = defaultdict(list)
-        for item in headers_duplicates:
-            headers[item['text']].append(item['index'])
+        for i, s in enumerate(line_list):
+            if re.search(pattern, s):
+                headers[s].append(i)
 
-        # Remove only those keys that have one entry
-        # Only the repeated keys (more than one value) are headers
-        # TODO: Might need to work on the case where there is only one page (one index value)
-        remove_key = []
-        for item in headers.items():
-            k = item[0]
-            v = item[1]
-# You can unpack the items in the for-loop statement
-#
-# for k, v in headers.items():
+        final_text_lines = [l for l in line_list if len(headers[l]) < 2]
 
-            if len(v) > 1:
-                #print('This key has more than one index.')
-                continue
-            else:
-                #print('This key has only 1 index. Therefore it is not a header. Adding to removal list.')
-                remove_key.append(k)
-# Or write everything using a ... list comprehension 
-# remove_key = [k for k, v in headers.items() if len(v) == 1]
-
-        if len(remove_key) == len(headers.items()):
-            pass
-        else:
-            # Removes the non-header keys from the dictionary
-            for k in remove_key:
-                headers.pop(k)
-
-# len(headers.items()) is equal to len(headers). While it will not a cause a performance issue in your case, I would avoid this. 
-# It could be that len(headers.items()) will create an enumerated list first. This is not required.
-
-        if len(headers.items()) > 1:
-            print("Unable to remove headers and footers.")
-            self.cleaned_text_list = text_lines
-            return " ".join(text_lines), text_lines
-# Here the if statement could just be:
-#
-# if headers:
-#
-# a non-empty list or dictionary is interpreted in Python as True
-# As above you can avoid the indentation in the else block now. 
-
-        else:
-            # Using the headers indices to find the footers
-            # Footers follow the headers and should be one index away
-            headers_key = list(headers)[0]
-            footers = []
-            for i in headers.get(headers_key):
-                i += 1
-                footers.append(i)
-
-# headers is a dictionary and you get the key of the first item added to the headers dictionary. 
-# Until recently, Python did not guarantee that the order is preserved and the documentation states
-# that this might go away again.
-#
-# footers = [i + 1 for i in headers.get(headers_key)]
-
-            # Turn the headers values back into a list of indices
-            headers = headers[headers_key]
-
-            # Combine headers and footers in one list, sort in descending order to remove those items from
-            # the end of the document first (in order to keep index numbers from changing)
-            remove_list = headers + footers + [0]
-            remove_list.sort(reverse=True)
-
-            if remove_list:
-                final_text_lines = [s for i, s in enumerate(text_lines) if i not in remove_list]
-            else:
-                print("Remove list empty - no headers of footers removed.")
-                self.cleaned_text_lines = text_lines
-
-                return " ".join(text_lines), text_lines
-
-# What is this doing? Looks like it repeatedly adds text_lines to the final_text_lines and wil also add the lines 
-# headers and footers in loops over j. e.g. say remove_list is [2, 6] and we have 10 lines. If i is 2, 9 lines will be 
-# added including line 6. In the next loop, again 9 lines will be added this time including 2
-# Is the following what you wanted to do?
-#
-# final_text_lines = [s for i, s in enumerate(text_lines) if i not in remove_list]
-# 
-# it should propably be text_lines instead of final_text_lines
-
-            print("Text is clean.")
-            self.cleaned_text_lines = final_text_lines
-
-            return " ".join(final_text_lines), final_text_lines
+        self.cleaned_text_lines = final_text_lines
+        return "\r\n".join(final_text_lines), final_text_lines
 
 # This is returned the original data and also misses the assignment to self.cleaned_text_list
 # self.cleaned_text_list = text_lines
@@ -312,11 +214,13 @@ class DocExtract():
             sentences = after_glossary.split(". ")
             for i in range(len(sentences)):
                 if sentences[i].isupper() and sentences[i].strip() not in ['ACRONYMS', 'DEFINITIONS'] and re.match('^[^.]*$', sentences[i]) and len(sentences[i-1]) > 5:
-                    glossary[sentences[i].translate(table).strip()] = sentences[i+1]
+                    if len(sentences) > i + 1:
+                        glossary[sentences[i].translate(table).strip()] = sentences[i+1]
                 if sentences[i].islower() and len(sentences[i].strip(' ')) > 3 and len(sentences[i].split()) < 5:
                     if re.match('(?:[A-Z]\.){1,}(?:[A-Z])', sentences[i-1].split()[-1]):
                         if sentences[i-2].islower() and len(sentences[i-2].strip(' ')) > 3 and len(sentences[i-2].split()) < 5:
-                            glossary[sentences[i].translate(table).strip()] = sentences[i + 1]
+                            if len(sentences) > i + 1:
+                                glossary[sentences[i].translate(table).strip()] = sentences[i + 1]
                         else:
                             continue
                     if True in [char.isdigit() for char in sentences[i].strip(' ')]:
