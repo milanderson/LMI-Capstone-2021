@@ -91,6 +91,7 @@ if __name__ == '__main__':
         conceptObj = Concept(pref.attrs['rdf:about'])
 
         # Loop through the other phrases available and add to the concept object
+
         for item in pref.find_all('prefLabel'):
             conceptObj.addPrefLabel(item.text, 0)
 
@@ -114,14 +115,14 @@ if __name__ == '__main__':
 
         for item in pref.find_all('related'):
             conceptObj.addRalted(item.text,0)
-
+        
         conceptList.append(conceptObj)
 
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
     # Get all acronym phrases
     phraseList = rdf.customTagList("acronym")
 
-    print(phraseList )
+    print(phraseList)
     # Read data files corpus and load matching acronym phrases
     filesList = ['a088p.txt'] #['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
@@ -146,21 +147,13 @@ if __name__ == '__main__':
 
     # Loop through the concepts list and update the corresponding matching acronym phrase count in the concept object list
     for count,con in enumerate(conceptList):
-        #print("Count : " + str(count))
-        #print(con.about)
-        #print(con.acronyms)
-
-        for key in con.acronyms:
-            #print(key)
+         for key in con.acronyms:
             for key1 in retDict:
                 if key == key1:
                     con.updateAcronyms(key,retDict[key])
                     conceptList[count] = con
-                #print(key1)
-                #print(retDict[key1])
 
-    # PrefLables
-
+    # prefLabel
     phraseList = rdf.customTagList("prefLabel")
     retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
 
@@ -168,16 +161,12 @@ if __name__ == '__main__':
     # in the concept object list
     for count,con in enumerate(conceptList):
         for key in con.prefLables:
-            #print(key)
             for key1 in retDict:
                 if key == key1:
                     con.updatePrefLabels(key,retDict[key])
                     conceptList[count] = con
-                #print(key1)
-                #print(retDict[key1])
 
     # AltLables
-
     phraseList = rdf.customTagList("altLabel")
     retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
 
@@ -185,26 +174,17 @@ if __name__ == '__main__':
     # in the concept object list
     for count, con in enumerate(conceptList):
         for key in con.altLabels:
-            # print(key)
             for key1 in retDict:
                 if key == key1:
                     con.updateAltLabels(key, retDict[key])
                     conceptList[count] = con
-                # print(key1)
-                # print(retDict[key1])
 
     print("UPDATED CONCEPTS LIST")
     for count, con in enumerate(conceptList):
         print("Concept # " + str(count))
-        #print(con.about)
         print("\tprelabel")
         print(con.prefLables)
         print("\taltlabel")
         print(con.altLabels)
         print("\tacronym")
         print(con.acronyms)
-
-
-    #con.updateAcronyms()
-    #print(con.prefLables)
-
