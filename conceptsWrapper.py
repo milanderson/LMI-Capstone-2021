@@ -1,6 +1,6 @@
 '''
-* Module  : contactsWrapper
-* Purpose : A wrapper to create contacts objects with all phrases and matching counts
+* Module  : conceptsWrapper
+* Purpose : A wrapper to create concept objects with all phrases and matching counts
 *           Reads the RDF file, create contacts and updates counts using the other modules functionality
 * Created : Oct-27-2021 : Srinivas -
 '''
