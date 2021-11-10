@@ -121,6 +121,7 @@ if __name__ == '__main__':
     # Get all acronym phrases
     phraseList = rdf.customTagList("acronym")
 
+    print(phraseList )
     # Read data files corpus and load matching acronym phrases
     filesList = ['a088p.txt'] #['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
