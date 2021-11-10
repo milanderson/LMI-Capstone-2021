@@ -61,6 +61,7 @@ class Concept():
     # add a new related phrase to the Ralated dictionary
     def addRalted(self,labelText,labelCount):
         self.related[labelText] = labelCount
+# PG: typo in name of method
 
     # Update prefLabel count
     def updatePrefLabels(self,labelText,newCount):
@@ -74,7 +75,14 @@ class Concept():
     def updateAcronyms(self,labelText,newCount):
         self.acronyms[labelText] = newCount
 
+# PG: the add and update methods are identical. I don't see a reason to have separate methods. 
+#     Getters and setters are relatively uncommon in Python. It's more common to directly access the fields. If it at some point necessary
+#     to run specific code on accessing the field, it's more common to use `@property` (https://docs.python.org/3/library/functions.html#property)
+
 if __name__ == '__main__':
+    
+# PG: The main function is very long. I would move blocks of code that do one thing (e.g. read and parse the RDF file, initialize the concept list) into 
+#     functions
     #pltHistogram()
     headers = {'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
 
@@ -131,6 +139,11 @@ if __name__ == '__main__':
 
         # Read data from the source file
         data = fileObject.read()
+
+# PG: read files using context manager syntax (e.g. here you didn't close the fileObject, so in a long running application, this can cause issues)
+# with open(filePath + fileName, 'r') as fileObject:
+#     data = fileObject.read()
+
         data.replace(r"\n", " ")
 
         # Create tokens
@@ -152,6 +165,20 @@ if __name__ == '__main__':
                 if key == key1:
                     con.updateAcronyms(key,retDict[key])
                     conceptList[count] = con
+# PG: Is there a reason that you need to iterate over retDict? This should be identical (and faster as you remove a loop):
+for count,con in enumerate(conceptList):
+     for key in con.acronyms:
+        if key in retDict:
+            con.updateAcronyms(key,retDict[key])
+            conceptList[count] = con
+# the concept is an object that is modified, but not replaced. It is not necessary to assign it back to the list; the list 
+# still contains the original, now modified object
+for concept in conceptList:
+    for key in concept.acronyms:
+        if key in retDict:
+            concept.updateAcronyms(key, retDict[key])
+
+# PG: If you directly access the fields in the concept object, I think this can be simplified even more:
 
     # prefLabel
     phraseList = rdf.customTagList("prefLabel")
@@ -165,6 +192,7 @@ if __name__ == '__main__':
                 if key == key1:
                     con.updatePrefLabels(key,retDict[key])
                     conceptList[count] = con
+# PG: the same applies here. 
 
     # AltLables
     phraseList = rdf.customTagList("altLabel")
@@ -178,6 +206,8 @@ if __name__ == '__main__':
                 if key == key1:
                     con.updateAltLabels(key, retDict[key])
                     conceptList[count] = con
+# PG: and here
+
 
     print("UPDATED CONCEPTS LIST")
     for count, con in enumerate(conceptList):
