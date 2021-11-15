@@ -10,6 +10,8 @@ import bs4
 from rdfHandler import rdfObject
 from PhraseCounts import phraseCounts
 import nltk
+from datetime import datetime
+
 
 # Concept object class to store all phrase counts
 class Concept():
@@ -46,6 +48,9 @@ class Concept():
 #     to run specific code on accessing the field, it's more common to use `@property` (https://docs.python.org/3/library/functions.html#property)
 
 # create and initialize Concept objects
+# Open and reads the RDF document for all concept objects available and creates a list with ConceptObjects
+# Also initializes the phrases in the Concept Objects (Synonyms, Acronyms, PrefLable and AltLabel)
+
 def CreateConcepts():
     tConceptsList = []
     headers = {'user_agent': 'Srinivas class project;ver 1.0;email = spc6ph@virginia.edu;language = Python 3.8.12; platform = windows 10'}
@@ -79,7 +84,11 @@ def CreateConcepts():
 # Update matching phrase in the Concept objects
 def UpdateConcepts(phraseType,conceptObjList):
 
+    rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
+
     phraseList = rdf.customTagList(phraseType)
+
+    phCount = phraseCounts()
     retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
 
     # Loop through the concepts list and update the corresponding matching acronym phrase count
@@ -126,6 +135,8 @@ def PrintConcepts(conceptObjList):
         print("\tacronym")
         print(con.acronyms)
 
+def logEvents(logText):
+    print(datetime.now().strftime("%H:%M:%S") + " - " + logText)
 if __name__ == '__main__':
 
 # PG: The main function is very long. I would move blocks of code that do one thing (e.g. read and parse the RDF file, initialize the concept list) into 
@@ -135,17 +146,23 @@ if __name__ == '__main__':
 
     # Create and initialize a list to store Concept objects
     #conceptList = []
+
+    logEvents("1...")
     conceptList = CreateConcepts()
 
+    #logEvents("2...")
+    #rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
-    rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
     # Get all acronym phrases
-    phraseList = rdf.customTagList("acronym")
+    #phraseList = rdf.customTagList("acronym")
 
-    print(phraseList)
+    #print(phraseList)
+
     # Read data files corpus and load matching acronym phrases
-    filesList = ['a088p.txt'] #['a50p.txt', 'a088p.txt' ,'AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    filesList = ['a088p.txt','a50p.txt','AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
+    #['a088p.txt','a50p.txt','AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     filePath = r"C:\\Users\\srini\\UVA-MSDS\\DS-6011-CAP\\Files\\"
+    nltk_tokens = []
     for fileName in filesList:
         with open(filePath + fileName, 'r') as fileObject:
             # Read data from the source file
@@ -154,31 +171,32 @@ if __name__ == '__main__':
         data.replace(r"\n", " ")
 
         # Create tokens
-        nltk_tokens = nltk.word_tokenize(data)
+        nltk_tokens = nltk_tokens + nltk.word_tokenize(data)
 
-        # Get the matchig phrase count
-        phCount = phraseCounts()
+        # Get the matching phrase count
+        #phCount = phraseCounts()
+
         # retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
-        retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
+        #retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
 
-    # Get the matching acronym phrases and counts in a dictionary object
-    print(retDict)
+
 
 
 
 # PG: If you directly access the fields in the concept object, I think this can be simplified even more:
     # Acronyms
     UpdateConcepts("acronym", conceptList)
-
+    logEvents("5...")
     # prefLabel
     UpdateConcepts("prefLabel",conceptList)
-
+    logEvents("6...")
     # AltLables
     UpdateConcepts("altLabel",conceptList)
+    logEvents("7...")
 
     # Print the Cocepts List
     PrintConcepts(conceptList)
-
+    logEvents("8...")
 
 
 
