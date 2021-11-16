@@ -11,6 +11,7 @@ from rdfHandler import rdfObject
 from PhraseCounts import phraseCounts
 import nltk
 from datetime import datetime
+import pandas as pd
 
 
 # Concept object class to store all phrase counts
@@ -30,15 +31,37 @@ class Concept():
 
     # add a new preLabel phrase to the prefLabels dictionary
     def addPrefLabel(self,labelText,labelCount):
-        self.prefLables[labelText] = labelCount
+        if (labelCount == 0):
+            self.prefLables[labelText] = 0
+        else:
+            if (isinstance(labelCount, int) ):
+                self.prefLables[labelText] = self.prefLables[labelText]  + labelCount
+            else:
+                self.prefLables[labelText] = labelCount
+        #self.prefLables[labelText] = labelCount
 
     # add a new altLabel phrase to the altLabels dictionary
     def addAltLabel(self,labelText,labelCount):
-        self.altLabels[labelText] = labelCount
+        if (labelCount == 0):
+            self.altLabels[labelText] = 0
+        else:
+            if (isinstance(labelCount, int) ):
+                self.altLabels[labelText] = self.altLabels[labelText]  + labelCount
+            else:
+                self.prefLables[labelText] = labelCount
+        #self.altLabels[labelText] =  labelCount
 
     # add a new acronym phrase to the Acronyms dictionary
     def addAcronyms(self,labelText,labelCount):
-        self.acronyms[labelText] = labelCount
+        if (labelCount == 0):
+            self.acronyms[labelText] = 0
+        else:
+            if (isinstance(labelCount, int) ):
+                self.acronyms[labelText] = self.acronyms[labelText]  + labelCount
+            else:
+                self.prefLables[labelText] = labelCount
+
+        #self.acronyms[labelText] =  labelCount
 
     # add a new synonym phrase to the Synonyms dictionary
     def addSynonyms(self,labelText,labelCount):
@@ -82,19 +105,19 @@ def CreateConcepts():
     return (tConceptsList)
 
 # Update matching phrase in the Concept objects
-def UpdateConcepts(phraseType,conceptObjList):
+def UpdateConcepts(phraseType,conceptObjList,textTokens):
 
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
     phraseList = rdf.customTagList(phraseType)
 
     phCount = phraseCounts()
-    retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
+    retDict = phCount.getPhraseFrequencyCount(phraseList, textTokens)
 
     # Loop through the concepts list and update the corresponding matching acronym phrase count
     # in the concept object list
     if (phraseType == "altLabel"):
-        for count, con in enumerate(conceptList):
+        for count, con in enumerate(conceptObjList):
             for key in con.altLabels:
                 for key1 in retDict:
                     if key == key1:
@@ -102,7 +125,7 @@ def UpdateConcepts(phraseType,conceptObjList):
                         #conceptList[count] = con
 
     if (phraseType == "prefLabel"):
-        for count, con in enumerate(conceptList):
+        for count, con in enumerate(conceptObjList):
             for key in con.prefLables:
                 for key1 in retDict:
                     if key == key1:
@@ -110,7 +133,7 @@ def UpdateConcepts(phraseType,conceptObjList):
                         #conceptList[count] = con
 
     if (phraseType == "acronym"):
-        for count, con in enumerate(conceptList):
+        for count, con in enumerate(conceptObjList):
             for key in con.acronyms:
                 for key1 in retDict:
                     if key == key1:
@@ -135,8 +158,17 @@ def PrintConcepts(conceptObjList):
         print("\tacronym")
         print(con.acronyms)
 
+
 def logEvents(logText):
     print(datetime.now().strftime("%H:%M:%S") + " - " + logText)
+
+##########################
+# Read the documents text data from the data frame
+##########################
+def ReadData(retRowNum):
+    dataDF = pd.read_csv("full_dataframe.csv")
+    return (dataDF['raw_text'][retRowNum])
+
 if __name__ == '__main__':
 
 # PG: The main function is very long. I would move blocks of code that do one thing (e.g. read and parse the RDF file, initialize the concept list) into 
@@ -158,6 +190,7 @@ if __name__ == '__main__':
 
     #print(phraseList)
 
+    '''
     # Read data files corpus and load matching acronym phrases
     filesList = ['a088p.txt','a50p.txt','AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
     #['a088p.txt','a50p.txt','AI08_2016.txt','AI120_2017.txt','DTM-19-013.txt','DTM-20-002.txt']
@@ -178,25 +211,33 @@ if __name__ == '__main__':
 
         # retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
         #retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
+    '''
 
+    for i in range(1,2,1):
+        logEvents("Start the iteration..." + str(i))
+        data = ReadData(i)
 
+        logEvents("Read the data...")
+        data.replace(r"\n", " ")
 
+        # Create tokens
+        nltk_tokens = nltk.word_tokenize(data)
 
-
-# PG: If you directly access the fields in the concept object, I think this can be simplified even more:
-    # Acronyms
-    UpdateConcepts("acronym", conceptList)
-    logEvents("5...")
-    # prefLabel
-    UpdateConcepts("prefLabel",conceptList)
-    logEvents("6...")
-    # AltLables
-    UpdateConcepts("altLabel",conceptList)
-    logEvents("7...")
+        logEvents("Tokenized the data...")
+        # PG: If you directly access the fields in the concept object, I think this can be simplified even more:
+        # Acronyms
+        UpdateConcepts("acronym", conceptList,nltk_tokens)
+        logEvents("Processed Acronyms...")
+        # prefLabel
+        UpdateConcepts("prefLabel",conceptList,nltk_tokens)
+        logEvents("Processed preflabels...")
+        # AltLables
+        UpdateConcepts("altLabel",conceptList,nltk_tokens)
+        logEvents("Processed altlabels...")
 
     # Print the Cocepts List
     PrintConcepts(conceptList)
-    logEvents("8...")
+    logEvents("Printed Concept Objects...")
 
 
 
