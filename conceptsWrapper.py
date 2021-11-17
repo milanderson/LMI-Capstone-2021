@@ -16,7 +16,7 @@ import pandas as pd
 
 # Concept object class to store all phrase counts
 class Concept():
-
+    conceptCounter = 0
     def __init__(self,aboutText=None):
         if aboutText == None:
             self.about = ""
@@ -24,6 +24,8 @@ class Concept():
             self.about = aboutText
 
         # Initialize variables to track various phrase counts
+        Concept.conceptCounter += 1
+        self.conceptId = Concept.conceptCounter
         self.prefLables = {}
         self.altLabels = {}
         self.acronyms = {}
@@ -105,7 +107,71 @@ def CreateConcepts():
     return (tConceptsList)
 
 # Update matching phrase in the Concept objects
-def UpdateConcepts(phraseType,conceptObjList,textTokens):
+def UpdateConcepts(phraseType,conceptObjList,textTokens,documentName):
+
+    rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
+
+    data = {'doc_name': 'dummyText.txt',
+            'cocept_id': 0,
+            'phrase_type': 'testLable',
+            'phrase_text': 'test Phrase',
+            'phrase_count': 0,
+            'time_stamp': '01-01-1900 01:01:01'}
+    tempDF = pd.DataFrame(data, index=[0])
+
+    phraseList = rdf.customTagList("altLabel")
+
+    phCount = phraseCounts()
+    retDictAltLabels = phCount.getPhraseFrequencyCount(phraseList, textTokens)
+
+    phraseList = rdf.customTagList("prefLabel")
+
+    phCount = phraseCounts()
+    retDictPrefLabels = phCount.getPhraseFrequencyCount(phraseList, textTokens)
+
+
+    phraseList = rdf.customTagList("acronym")
+
+    phCount = phraseCounts()
+    retDictAcronyms = phCount.getPhraseFrequencyCount(phraseList, textTokens)
+
+    # Loop through the concepts list and update the corresponding matching acronym phrase count
+    # in the concept object list
+
+    if (phraseType == "allLabels"):
+        for count, con in enumerate(conceptObjList):
+
+            #[writeToDataFrame(sourceDF,documentName,con.conceptId,'altLabel',key) for key in list(con.altLabels.keys()) if key in retDictAltLabels.keys()]
+            #[writeToDataFrame(sourceDF,documentName,con.conceptId,'prefLabel',key) for key in list(con.prefLables.keys()) if key in retDictPrefLabels.keys()]
+            #[writeToDataFrame(sourceDF,documentName,con.conceptId,'acronym',key) for key in list(con.acronyms.keys()) if key in retDictAcronyms.keys()]
+
+            # Update the ConceptObjects
+            #[con.addAltLabel(key, retDictAltLabels[key]) for key in list(con.altLabels.keys()) if key in retDictAltLabels.keys()]
+            #[con.addPrefLabel(key, retDictPrefLabels[key]) for key in list(con.prefLables.keys()) if key in retDictPrefLabels.keys()]
+            #[con.addAcronyms(key, retDictAcronyms[key]) for key in list(con.acronyms.keys()) if key in retDictAcronyms.keys()]
+
+            #[con.addAltLabel(key, retDictAltLabels[key]) for key in list(con.altLabels.keys()) if key in retDictAltLabels.keys()]
+            #[con.addPrefLabel(key, retDictPrefLabels[key]) for key in list(con.prefLables.keys()) if key in retDictPrefLabels.keys()]
+            #[con.addAcronyms(key, retDictAcronyms[key]) for key in list(con.acronyms.keys()) if key in retDictAcronyms.keys()]
+
+
+            for key in con.altLabels:
+                for key1 in retDictAltLabels:
+                    if key == key1:
+                        #con.addAltLabel(key, retDictAltLabels[key])
+                        tempDF = tempDF.append(writeToDataFrame(documentName, con.conceptId, 'altLabel', key,retDictAltLabels[key]))
+            for key in con.prefLables:
+                for key1 in retDictPrefLabels:
+                    if key == key1:
+                        #con.addPrefLabel(key, retDictPrefLabels[key])
+                        tempDF = tempDF.append(writeToDataFrame(documentName, con.conceptId, 'prefLabel', key,retDictPrefLabels[key]))
+            for key in con.acronyms:
+                for key1 in retDictAcronyms:
+                    if key == key1:
+                        #con.addAcronyms(key, retDictAcronyms[key])
+                        tempDF = tempDF.append(writeToDataFrame(documentName, con.conceptId, 'acronym', key,retDictAcronyms[key]))
+
+    return (tempDF)
 
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
@@ -114,31 +180,12 @@ def UpdateConcepts(phraseType,conceptObjList,textTokens):
     phCount = phraseCounts()
     retDict = phCount.getPhraseFrequencyCount(phraseList, textTokens)
 
-    # Loop through the concepts list and update the corresponding matching acronym phrase count
-    # in the concept object list
-    if (phraseType == "allLabels"):
-        for count, con in enumerate(conceptObjList):
-            for key in con.altLabels:
-                for key1 in retDict:
-                    if key == key1:
-                        con.addAltLabel(key, retDict[key])
-            for key in con.prefLables:
-                for key1 in retDict:
-                    if key == key1:
-                        con.addPrefLabel(key, retDict[key])
-            for key in con.acronyms:
-                for key1 in retDict:
-                    if key == key1:
-                        con.addAcronyms(key, retDict[key])
-
-
     if (phraseType == "altLabel"):
         for count, con in enumerate(conceptObjList):
             for key in con.altLabels:
                 for key1 in retDict:
                     if key == key1:
                         con.addAltLabel(key, retDict[key])
-                        #conceptList[count] = con
 
     if (phraseType == "prefLabel"):
         for count, con in enumerate(conceptObjList):
@@ -146,7 +193,6 @@ def UpdateConcepts(phraseType,conceptObjList,textTokens):
                 for key1 in retDict:
                     if key == key1:
                         con.addPrefLabel(key, retDict[key])
-                        #conceptList[count] = con
 
     if (phraseType == "acronym"):
         for count, con in enumerate(conceptObjList):
@@ -154,9 +200,6 @@ def UpdateConcepts(phraseType,conceptObjList,textTokens):
                 for key1 in retDict:
                     if key == key1:
                         con.addAcronyms(key, retDict[key])
-                        #conceptList[count] = con
-
-
 
 
 # Print the Concept Objects List
@@ -165,6 +208,7 @@ def PrintConcepts(conceptObjList):
     for count, con in enumerate(conceptObjList):
         print("===================")
         print("CONCEPT # " + str(count))
+        print(con.conceptId)
         print(con.about)
         print("===================")
         print("\tprelabel")
@@ -183,8 +227,19 @@ def logEvents(logText):
 ##########################
 def ReadData(retRowNum):
     dataDF = pd.read_csv("full_dataframe.csv")
-    return (dataDF['raw_text'][retRowNum])
+    return (dataDF['file_name'][retRowNum],dataDF['raw_text'][retRowNum])
 
+# Append an entry to a data frame
+def writeToDataFrame(docName,conceptId,phraseType,phraseText,phraseCount):
+    data = {'doc_name': docName,
+            'cocept_id': conceptId,
+            'phrase_type': phraseType,
+            'phrase_text': phraseText,
+            'phrase_count': phraseCount,
+            'time_stamp': datetime.now()}
+    #srcDF = srcDF.append(pd.DataFrame(data, index=[0]))
+    df = pd.DataFrame(data, index=[0])
+    return (df)
 if __name__ == '__main__':
 
 # PG: The main function is very long. I would move blocks of code that do one thing (e.g. read and parse the RDF file, initialize the concept list) into 
@@ -228,11 +283,19 @@ if __name__ == '__main__':
         # retDict = phCount.getPhraseCount(synonymsList,nltk_tokens)
         #retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
     '''
+    data = {'doc_name' : 'dummyText.txt',
+            'cocept_id' : 0,
+            'phrase_type' : 'testLable',
+            'phrase_text' : 'test Phrase',
+            'phrase_count' : 0,
+            'time_stamp' : '01-01-1900 01:01:01'}
+    dataDF = pd.DataFrame(data,index=[0])
 
-    for i in range(1,2,1):
+    for i in range(1,5,1):
         logEvents("Start the iteration..." + str(i))
-        data = ReadData(i)
-
+        docName,data = ReadData(i)
+        print('Document Name :')
+        print(docName)
         logEvents("Read the data...")
         data.replace(r"\n", " ")
 
@@ -241,6 +304,14 @@ if __name__ == '__main__':
 
         logEvents("Tokenized the data...")
         # PG: If you directly access the fields in the concept object, I think this can be simplified even more:
+
+        # allLabels
+        df = UpdateConcepts("allLabels",conceptList,nltk_tokens,docName)
+        dataDF = dataDF.append(df)
+
+        logEvents("Processed allLabels...")
+
+        """
         # Acronyms
         UpdateConcepts("acronym", conceptList,nltk_tokens)
         logEvents("Processed Acronyms...")
@@ -250,7 +321,9 @@ if __name__ == '__main__':
         # AltLables
         UpdateConcepts("altLabel",conceptList,nltk_tokens)
         logEvents("Processed altlabels...")
+        """
 
+    dataDF
     # Print the Cocepts List
     PrintConcepts(conceptList)
     logEvents("Printed Concept Objects...")
