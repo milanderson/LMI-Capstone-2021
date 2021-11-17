@@ -116,6 +116,22 @@ def UpdateConcepts(phraseType,conceptObjList,textTokens):
 
     # Loop through the concepts list and update the corresponding matching acronym phrase count
     # in the concept object list
+    if (phraseType == "allLabels"):
+        for count, con in enumerate(conceptObjList):
+            for key in con.altLabels:
+                for key1 in retDict:
+                    if key == key1:
+                        con.addAltLabel(key, retDict[key])
+            for key in con.prefLables:
+                for key1 in retDict:
+                    if key == key1:
+                        con.addPrefLabel(key, retDict[key])
+            for key in con.acronyms:
+                for key1 in retDict:
+                    if key == key1:
+                        con.addAcronyms(key, retDict[key])
+
+
     if (phraseType == "altLabel"):
         for count, con in enumerate(conceptObjList):
             for key in con.altLabels:
