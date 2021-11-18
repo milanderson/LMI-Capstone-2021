@@ -62,12 +62,12 @@ class SectionSegmentation:
 
             segmented_text = {}
             try:
-                if "Table of Contents" in list(sections_dict.keys()):
+                if "table of contents" in list(sections_dict.keys()):
                     segmented_text["Preamble"] = " ".join(text[:sections_dict["Table of Contents"]])
                     start_index = sections_dict["Table of Contents"]
                 elif "TABLE OF CONTENTS" in list(sections_dict.keys()):
-                    segmented_text["Preamble"] = " ".join(text[:sections_dict["TABLE OF CONTENTS"]])
-                    start_index = sections_dict["TABLE OF CONTENTS"]
+                   segmented_text["Preamble"] = " ".join(text[:sections_dict["TABLE OF CONTENTS"]])
+                   start_index = sections_dict["TABLE OF CONTENTS"]
                 else:
                     segmented_text["Preamble"] = " ".join(text[:section_index[0]])
                     start_index = section_index[0]
@@ -83,19 +83,37 @@ class SectionSegmentation:
                     else:
                         segmented_text[sections_list[j]] = " ".join(text[start:])
 
+                segmentation_keys = list(map(lambda x: x.lower(), segmented_text.keys()))
+                glossary_subsection_pattern = "part i"
+
+                if glossary_subsection_pattern in segmentation_keys:
+                    glossary = [x for x in segmented_text.keys() if re.findall("glossary", x, flags=re.IGNORECASE)]
+                    print(glossary)
+                    glossary_subsections = [x for x in segmented_text.keys() if re.findall(glossary_subsection_pattern, x, flags=re.IGNORECASE)]
+                    print(glossary_subsections)
+
+                    if glossary and len(glossary_subsections) == 2:
+                        segmented_text[glossary[-1]] = segmented_text[glossary_subsections[0]] + segmented_text[glossary_subsections[1]]
+                        del segmented_text[glossary_subsections[0]]
+                        del segmented_text[glossary_subsections[1]]
+                    elif len(glossary_subsections) == 2:
+                        segmented_text["Glossary"] = segmented_text[glossary_subsections[0]] + segmented_text[glossary_subsections[0]]
+                        del segmented_text[glossary_subsections[0]]
+                        del segmented_text[glossary_subsections[1]]
+
                 final_segmented_text[self.doc_names[i]] = segmented_text
             except:
-               self.unsegmented_docs += 1
-               continue
+                self.unsegmented_docs += 1
+                continue
 
         self.segmented_docs = final_segmented_text
 
 
-if __name__ == "__main__":
-    allDocs = pd.read_csv("full_dataframe.csv")
-
-    segmented = SectionSegmentation()
-    segmented.documents(allDocs)
-    segmented.sectionSegmentation()
-
-    print(segmented.unsegmented_docs)
+# if __name__ == "__main__":
+#     allDocs = pd.read_csv("full_dataframe.csv")
+#
+#     segmented = SectionSegmentation()
+#     segmented.documents(allDocs)
+#     segmented.sectionSegmentation()
+#
+#     print(segmented.unsegmented_docs)
