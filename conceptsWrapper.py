@@ -107,11 +107,12 @@ def CreateConcepts():
     return (tConceptsList)
 
 # Update matching phrase in the Concept objects
-def UpdateConcepts(phraseType,conceptObjList,textTokens,documentName):
+def UpdateConcepts(phraseType,conceptObjList,textTokens,documentName,docType):
 
     rdf = rdfObject('https://mikeanders.org/data/Ontologies/DoD/DASD SKOS_Ontology.rdf', 'web')
 
     data = {'doc_name': 'dummyText.txt',
+            'doc_type': 'test_type',
             'cocept_id': 0,
             'phrase_type': 'testLable',
             'phrase_text': 'test Phrase',
@@ -159,17 +160,17 @@ def UpdateConcepts(phraseType,conceptObjList,textTokens,documentName):
                 for key1 in retDictAltLabels:
                     if key == key1:
                         #con.addAltLabel(key, retDictAltLabels[key])
-                        tempDF = tempDF.append(writeToDataFrame(documentName, con.conceptId, 'altLabel', key,retDictAltLabels[key]))
+                        tempDF = tempDF.append(writeToDataFrame(documentName,docType, con.conceptId, 'altLabel', key,retDictAltLabels[key]))
             for key in con.prefLables:
                 for key1 in retDictPrefLabels:
                     if key == key1:
                         #con.addPrefLabel(key, retDictPrefLabels[key])
-                        tempDF = tempDF.append(writeToDataFrame(documentName, con.conceptId, 'prefLabel', key,retDictPrefLabels[key]))
+                        tempDF = tempDF.append(writeToDataFrame(documentName,docType, con.conceptId, 'prefLabel', key,retDictPrefLabels[key]))
             for key in con.acronyms:
                 for key1 in retDictAcronyms:
                     if key == key1:
                         #con.addAcronyms(key, retDictAcronyms[key])
-                        tempDF = tempDF.append(writeToDataFrame(documentName, con.conceptId, 'acronym', key,retDictAcronyms[key]))
+                        tempDF = tempDF.append(writeToDataFrame(documentName,docType, con.conceptId, 'acronym', key,retDictAcronyms[key]))
 
     return (tempDF)
 
@@ -227,11 +228,12 @@ def logEvents(logText):
 ##########################
 def ReadData(retRowNum):
     dataDF = pd.read_csv("full_dataframe.csv")
-    return (dataDF['file_name'][retRowNum],dataDF['raw_text'][retRowNum])
+    return (dataDF['file_name'][retRowNum],dataDF['raw_text'][retRowNum],dataDF['doc_type'][retRowNum])
 
 # Append an entry to a data frame
-def writeToDataFrame(docName,conceptId,phraseType,phraseText,phraseCount):
+def writeToDataFrame(docName,docType,conceptId,phraseType,phraseText,phraseCount):
     data = {'doc_name': docName,
+            'doc_type': docType,
             'cocept_id': conceptId,
             'phrase_type': phraseType,
             'phrase_text': phraseText,
@@ -284,6 +286,7 @@ if __name__ == '__main__':
         #retDict = phCount.getPhraseFrequencyCount(phraseList, nltk_tokens)
     '''
     data = {'doc_name' : 'dummyText.txt',
+            'doc_type' : 'test_type',
             'cocept_id' : 0,
             'phrase_type' : 'testLable',
             'phrase_text' : 'test Phrase',
@@ -293,7 +296,7 @@ if __name__ == '__main__':
 
     for i in range(1,5,1):
         logEvents("Start the iteration..." + str(i))
-        docName,data = ReadData(i)
+        docName,data,docType = ReadData(i)
         print('Document Name :')
         print(docName)
         logEvents("Read the data...")
@@ -306,7 +309,7 @@ if __name__ == '__main__':
         # PG: If you directly access the fields in the concept object, I think this can be simplified even more:
 
         # allLabels
-        df = UpdateConcepts("allLabels",conceptList,nltk_tokens,docName)
+        df = UpdateConcepts("allLabels",conceptList,nltk_tokens,docName,docType)
         dataDF = dataDF.append(df)
 
         logEvents("Processed allLabels...")
