@@ -255,4 +255,4 @@ def printNGrams(text):
         print(ngram.text)
 
 if __name__ == "__main__":
-    main("This is a test")
+    printNGrams("This is a test")
