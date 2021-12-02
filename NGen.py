@@ -249,10 +249,10 @@ def makePatternScorer(patterns="patterns.txt"):
 
     return scorePattern
 
-def main(text):
+def printNGrams(text):
     ngen = NGramGenerator(5, score_func=makePatternScorer())
     for ngram in ngen(text):
         print(ngram.text)
 
 if __name__ == "__main__":
-    main(story)
+    main("This is a test")
