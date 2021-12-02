@@ -30,7 +30,7 @@ class NGramGenerator():
     CHAR_MAP = {'"': '"', '{': '}', '}': '{', '(': ')', ')': '(', ']': '[', '[': ']'}
     OPEN_CHARS = '"{[('
 
-    def __init__(self, max_n, stop_chars='', stop_words=[], score_func=None, ignore_rare=1):
+    def __init__(self, max_n, stop_chars='', stop_words=None, score_func=None, ignore_rare=1):
         # map of strings: {occurance counts
         self.ngram_map = {}
         self.token_que = []
@@ -39,7 +39,8 @@ class NGramGenerator():
 
         self.REM_CHARS = stop_chars + NGramGenerator.REM_CHARS
         self.STOP_CHARS = [char for char in self.REM_CHARS + self.ENCL_CHARS]
-        self.STOP_WORDS = stop_words + NGramGenerator.STOP_WORDS
+        self.STOP_WORDS = stop_words == None ? [] : stop_words
+        self.STOP_WORDS += NGramGenerator.STOP_WORDS
         self.ENCL_CHARS = NGramGenerator.ENCL_CHARS
         self._enclosing = [None]
 
