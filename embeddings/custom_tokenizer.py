@@ -60,6 +60,16 @@ def get_acronym_terms(file_name):
 
     return filtered_acronyms
 
+def get_isa_terms(file_name):
+    raw_terms = pd.read_csv(file_name, index_col=0)
+    hyponyms = list(raw_terms["hyponym"])
+    hypernyms = list(raw_terms["hypernym"])
+
+    all_terms = hyponyms + hypernyms
+
+    return all_terms
+
+
 
 if __name__ == "__main__":
     # test = "This sentence contains department of defense. It also contains under secretary of defense " \
@@ -77,7 +87,8 @@ if __name__ == "__main__":
 
     acronyms = get_acronym_terms("./embeddings/matching_acronym.csv")
     glossary = get_glossary_terms("./embeddings/matching_glossary.csv")
-    all_terms = acronyms + glossary
+    isa_terms = get_isa_terms("hyponyms_less.csv")
+    all_terms = acronyms + glossary + isa_terms
 
     # combined_glossary = create_glossary(glossary_file, acronyms_file)
 
