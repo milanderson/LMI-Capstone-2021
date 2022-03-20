@@ -1,58 +1,62 @@
 import spacy
-from spacy.matcher import Matcher
+from spacy.matcher import PhraseMatcher
 import pandas as pd
+import pickle
 from time import process_time
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_lg")
 
-
-def merge_matches(doc, matches):
+def custom_tokenize(text, matcher):
     """
     Function takes the document and matches in order to merge together the
     word patterns found in the documents.
-    :param doc: spacy Doc object
-    :param matches: matches found by the Matcher, tuples
+    :param text: the text to tokenize
+    :param matcher: a spacy matcher that has been initialized with custom rules
     """
-    # For-loop goes in reverse order to avoid incorrect indexing
-    # That occurs if you start from the beginning
-    for i in reversed(matches):
-        # Each item in the matches list is a tuple with match_id, start index, and end index
-        match_id, start, end = i
-        with doc.retokenize() as retokenizer:
-            retokenizer.merge(doc[start:end])
-
-
-def create_patterns(word):
-    """
-    Creates a spacy recognized pattern to be passed to the Matcher function
-    :param word: word/phrase that needs to be recombined after spacy tokenization
-    :return: pattern
-    """
-    # split the word/phrase into its individual pieces
-    word_list = word.split()
-    # create a list of dictionaries containing each word
-    pattern = [{"LOWER": i} for i in word_list]
-
-    return pattern
-
-
-def custom_tokenizer(text, glossary):
-    matcher = Matcher(nlp.vocab)
-    for i, word in enumerate(glossary):
-        matcher.add(f"pattern_{i}", [create_patterns(word=word)])
     doc = nlp(text)
-    matches = matcher(doc)
-    merge_matches(doc, matches)
+    with doc.retokenize() as retokenizer:
+        #spacy will cache the merges and execute them when this block concludes.
+        #See: https://spacy.io/api/doc#retokenize
+        for _, start, end in deconflict(matcher(doc)):
+            retokenizer.merge(doc[start:end])
 
     return doc
 
+###################### Utility Methods ######################
 
+def deconflict(matches):
+    # assumes matches are sorted
+    deconflicted = matches[:1]
+    for match in matches[1:]:
+        if overlaps(deconflicted[-1][1:], match[1:]):
+            if inside(deconflicted[-1][1:], match[1:]):
+                deconflicted[-1] = match
+        else:
+            deconflicted.append(match)
+    return deconflicted
+
+def inside(rangeA, rangeB):
+    return rangeA[0] >= rangeB[0] and rangeA[1] <= rangeB[1]
+
+def overlaps(rangeA, rangeB):
+    return between(rangeA[0], *rangeB) or between(rangeA[1], *rangeB) or between(rangeB[0], *rangeA)
+
+def between(a, b, c):
+    return a >= b and a <= c
+
+###################### Loading Methods ######################
+
+def createMatcher(glossary):
+    matcher = PhraseMatcher(nlp.vocab)
+    for i, phrase in enumerate(glossary):
+        matcher.add(f"pattern_{i}", [nlp(phrase)])
+    return matcher
+    
 def get_glossary_terms(file_name):
     raw_glossary = pd.read_csv(file_name, index_col=0)
     filtered_glossary = list(raw_glossary[raw_glossary["doc_present"] == True].loc[:, "Term"])
 
     return filtered_glossary
-
 
 def get_acronym_terms(file_name):
     raw_acronyms = pd.read_csv(file_name, index_col=0)
@@ -68,6 +72,7 @@ def get_isa_terms(file_name):
     all_terms = hyponyms + hypernyms
 
     return all_terms
+
 
 
 
@@ -89,20 +94,22 @@ if __name__ == "__main__":
     glossary = get_glossary_terms("./embeddings/matching_glossary.csv")
     isa_terms = get_isa_terms("hyponyms_less.csv")
     all_terms = acronyms + glossary + isa_terms
+    matcher = createMatcher(glossary)
 
     # combined_glossary = create_glossary(glossary_file, acronyms_file)
 
     start_time = process_time()
 
-    new_docs = [custom_tokenizer(doc.lower(), glossary=glossary) for doc in allDocs["cleaned_text"]]
-    new_docs = [list(doc.sents) for doc in new_docs]
-    allDocs["custom_tokenized_text"] = new_docs
+    new_docs = [[tok.text for tok in custom_tokenize(text, matcher)] for text in allDocs["cleaned_text"]]
+    #new_docs = [list(doc.sents) for doc in new_docs]
+    #allDocs["custom_tokenized_text"] = new_docs
 
     end_time = process_time()
 
     print("Total elapsed time (in seconds):", end_time-start_time)
 
-    allDocs.to_csv("full_custom_tokenized_df.csv")
+    pickle.dump(new_docs, open('./embeddings/new_docs.pkl', 'wb'))
+    #allDocs.to_csv("full_custom_tokenized_df.csv")
 
 
 
