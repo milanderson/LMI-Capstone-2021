@@ -77,7 +77,7 @@ class PatternMatcher(object):
         chunks = []
         for sentence in doc.sents:
             sentence_text = sentence.lemma_
-            for chunk in sentence.noun_chunks:
+            for chunk in self.get_np_and_pp(sentence):
                 chunk_arr = []
                 for token in chunk:
                     # Ignore Punctuation and stopword adjectives (generally quantifiers of plurals)
@@ -89,6 +89,19 @@ class PatternMatcher(object):
                     sentence_text = sentence_text.replace(chunk.lemma_, replacement_value)
             chunks.append(sentence_text)
         return chunks
+
+    def get_np_and_pp(self, sentence):
+        np = [chunk for chunk in sentence.noun_chunks]
+        np.sort(key=lambda x: x.start)
+        for i in range(len(np)-1, 0, -1):
+            stIdx = np[i].start
+            edIdx = np[i].end
+            prev_phrase_ed = np[i-1].end 
+            prev_phrase_ed_tok = sentence[prev_phrase_ed]
+            if stIdx - 1 == prev_phrase_ed and prev_phrase_ed_tok.pos_ == "ADP":
+                np.pop(i)
+                np[i-1] = sentence[np[i-1].start:edIdx]
+        return np
 
     """
         This is the main entry point for this code.
@@ -104,10 +117,15 @@ class PatternMatcher(object):
         for sentence in np_tagged_sentences:
             # two or more NPs next to each other should be merged into a single NP, it's a chunk error
 
+            #print(sentence)
             for (l_pat, anchor, r_pat, parser) in self.__hearst_patterns:
+                #print(anchor)
                 for match in anchor.finditer(sentence):
+                    #print("MATCH", match)
                     left_match = [m[0] for m in l_pat.finditer(sentence[:match.span()[0]])]
+                    #print("LEFT", left_match)
                     right_match = r_pat.search(sentence[match.span()[1]:])
+                    #print("RIGHT", right_match)
                     
                     if left_match and right_match:
                         nps = self._getNP(left_match[-1]) + self._getNP(right_match[0])
