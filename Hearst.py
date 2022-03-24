@@ -97,10 +97,10 @@ class PatternMatcher(object):
             stIdx = np[i].start
             edIdx = np[i].end
             prev_phrase_ed = np[i-1].end 
-            prev_phrase_ed_tok = sentence[prev_phrase_ed]
+            prev_phrase_ed_tok = np[i].doc[prev_phrase_ed]
             if stIdx - 1 == prev_phrase_ed and prev_phrase_ed_tok.pos_ == "ADP":
                 np.pop(i)
-                np[i-1] = sentence[np[i-1].start:edIdx]
+                np[i-1] = np[i-1].doc[np[i-1].start:edIdx]
         return np
 
     """
