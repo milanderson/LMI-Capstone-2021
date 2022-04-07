@@ -3,6 +3,7 @@
 * Purpose : A wrapper to create concept objects with all phrases and matching counts
 *           Reads the RDF file, create contacts and updates counts using the other modules functionality
 * Created : Oct-27-2021 : Srinivas -
+* Changes : Feb-09-2022 : Srinivas - Added a new compare method to compare two concepts.
 '''
 from urllib.parse import unquote
 
@@ -35,6 +36,12 @@ class Concept():
 
             self.synonyms = [item.text for item in xmlConcept.find_all('synonym')]
 
+    # add a new synonym phrase to the synonyms dictionary
+    def addSynonym(self, key):
+        if key not in self.synonyms:
+            self.synonyms[key] = 0
+            self._allItems[key] = self.synonyms
+
     # add a new preLabel phrase to the prefLabels dictionary
     def addPrefLabel(self, key):
         if key not in self.prefLabels:
@@ -52,6 +59,13 @@ class Concept():
         if key not in self.acronyms:
             self.acronyms[key] = 0
             self._allItems[key] = self.acronyms
+
+    # Comparison method
+    def __eq__(self, other):
+        if (isinstance(other, Concept)):
+            return self.about == other.about
+        return False
+
 
     def __getitem__(self, key):
         if key in self._allItems:
@@ -83,3 +97,4 @@ class Concept():
 {alt}
     acronyms
 {acr}""".format(about=self.about, pref=self.prefLabels, alt=self.altLabels, acr=self.acronyms)
+

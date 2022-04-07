@@ -108,6 +108,6 @@ if __name__ == '__main__':
     print("\n*** RELATED LIST ***\n")
     print(rdf.customTagList("related"))
     # This code is to save the modified RDF file to a new file with changes. We are not using this functionality for now.
-    #rdf.saveRDFFile("c:\\testing\\DASD_SKOS_Ontology_mod.rdf")
+    rdf.saveRDFFile(r"c:\testing\\DASD_SKOS_Ontology_mod.rdf")
 
     print('Completed Successfully')
