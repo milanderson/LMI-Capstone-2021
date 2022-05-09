@@ -1,0 +1,1054 @@
+,Acronym,Label,doc_present,rdf_present,Phrase
+1,A/D,acronym,False,True,
+2,AST,acronym,False,True,
+3,AO,acronym,False,True,
+4,ASC,acronym,False,True,
+5,AAC,acronym,False,True,
+6,ACAT,acronym,False,True,
+7,AMC/AMSC,acronym,False,True,
+8,AMSC,acronym,False,True,
+9,ATC,acronym,False,True,
+10,ACF,acronym,False,True,
+11,ACT,acronym,False,True,
+12,ALT,acronym,False,True,
+13,ACTD,acronym,False,True,
+14,AMARG,acronym,False,True,
+15,AFGLSC,acronym,False,True,
+16,AF,acronym,False,True,
+17,ABU,acronym,False,True,
+18,AFB,acronym,False,True,
+19,AFIOH,acronym,False,True,
+20,AFIOH/SDR,acronym,False,True,
+21,AFIOH/SDC,acronym,False,True,
+22,AFI,acronym,False,True,
+23,AFJI,acronym,False,True,
+24,AFJM,acronym,False,True,
+25,AFMAN,acronym,False,True,
+26,AFMC,acronym,False,True,
+27,AFRMWO,acronym,False,True,
+28,AFR,acronym,False,True,
+29,AFTO,acronym,False,True,
+30,ALC,acronym,False,True,
+32,AC NO,acronym,False,True,
+34,ATF,acronym,False,True,
+35,ATV,acronym,False,True,
+36,ANSI,acronym,False,True,
+37,ANSI INCITS,acronym,False,True,
+38,ASTM,acronym,False,True,
+40,AEDA,acronym,False,True,
+41,ANMCS,acronym,False,True,
+42,AAO,acronym,False,True,
+44,AA,acronym,False,True,
+45,AL/OEM,acronym,False,True,
+46,AAFES,acronym,False,True,
+47,ACU,acronym,False,True,
+48,AEPS,acronym,False,True,
+51,ACM,acronym,False,True,
+52,ACOS,acronym,False,True,
+53,ASD,acronym,False,True,
+54,ASD(C3I),acronym,False,True,
+55,ASD(L),acronym,False,True,
+56,AHRS,acronym,False,True,
+57,AIS,acronym,False,True,
+58,ADP,acronym,False,True,
+59,ADPE,acronym,False,True,
+60,AUTODIN,acronym,False,True,
+61,AIDC,acronym,False,True,
+63,AOC,acronym,False,True,
+64,AVCAL,acronym,False,True,
+65,AWC,acronym,False,True,
+66,AWM,acronym,False,True,
+67,AWP,acronym,False,True,
+69,BDOS,acronym,False,True,
+70,BDU,acronym,False,True,
+71,BGAD,acronym,False,True,
+72,BIM,acronym,False,True,
+73,BLDG,acronym,False,True,
+74,BATF,acronym,False,True,
+75,BPNSE,acronym,False,True,
+76,BRS,acronym,False,True,
+77,CIC,acronym,False,True,
+78,COSIS,acronym,False,True,
+79,CAD,acronym,False,True,
+80,CAD/PAD,acronym,False,True,
+81,CRT,acronym,False,True,
+82,CGY,acronym,False,True,
+83,CPU,acronym,False,True,
+84,CIF,acronym,False,True,
+85,CJCS,acronym,False,True,
+86,CJCSM,acronym,False,True,
+87,CARC,acronym,False,True,
+88,CDE,acronym,False,True,
+90,CMA,acronym,False,True,
+91,CW,acronym,False,True,
+92,CWC,acronym,False,True,
+93,CBRN-D,acronym,False,True,
+94,CBRN-IPE,acronym,False,True,
+95,CBRN-D IPE,acronym,False,True,
+96,CBRN,acronym,False,True,
+97,CFO,acronym,False,True,
+99,CB,acronym,False,True,
+100,CFC,acronym,False,True,
+102,CAP,acronym,False,True,
+104,CCDR,acronym,False,True,
+105,CCMD,acronym,False,True,
+106,CCD,acronym,False,True,
+107,CDRUSTRANSCOM,acronym,False,True,
+108,CCL,acronym,False,True,
+109,CCLI-ECCN,acronym,False,True,
+110,CCLI,acronym,False,True,
+111,COTS,acronym,False,True,
+112,CML,acronym,False,True,
+113,CAGE,acronym,False,True,
+114,CSLA,acronym,False,True,
+115,CIMM,acronym,False,True,
+116,CAC,acronym,False,True,
+117,COMSEC,acronym,False,True,
+118,CD ROM,acronym,False,True,
+119,CD,acronym,False,True,
+120,CDD,acronym,False,True,
+121,CERCLA,acronym,False,True,
+122,CFL,acronym,False,True,
+123,CMM,acronym,False,True,
+124,COSAL,acronym,False,True,
+125,CCP,acronym,False,True,
+126,CONUS,acronym,False,True,
+127,CRMS,acronym,False,True,
+128,CRS,acronym,False,True,
+129,CDRL,acronym,False,True,
+130,CLIN,acronym,False,True,
+131,COR,acronym,False,True,
+132,CLS,acronym,False,True,
+133,CLS/PBL,acronym,False,True,
+134,CCI,acronym,False,True,
+136,CIIC,acronym,False,True,
+137,CPVO,acronym,False,True,
+138,CLSSA,acronym,False,True,
+139,CCT,acronym,False,True,
+140,USACE,acronym,False,True,
+141,CBA,acronym,False,True,
+142,CSI/FSCAP,acronym,False,True,
+143,CF,acronym,False,True,
+144,CWT,acronym,False,True,
+145,DADV,acronym,False,True,
+146,DOR,acronym,False,True,
+147,DRPR,acronym,False,True,
+148,DTDS,acronym,False,True,
+149,DAPM,acronym,False,True,
+150,DAC,acronym,False,True,
+151,DAAS,acronym,False,True,
+152,DCMA,acronym,False,True,
+153,DCIO,acronym,False,True,
+154,DFARS,acronym,False,True,
+157,DIIP,acronym,False,True,
+159,DIMMP,acronym,False,True,
+161,DLA SA/LW,acronym,False,True,
+162,DLA SA/LWSP,acronym,False,True,
+163,DLMSO,acronym,False,True,
+164,DLMS,acronym,False,True,
+165,DLM,acronym,False,True,
+166,DLSS,acronym,False,True,
+167,DNA,acronym,False,True,
+168,DPPG,acronym,False,True,
+169,DPAP,acronym,False,True,
+170,DRMO,acronym,False,True,
+171,DRMS,acronym,False,True,
+173,DSC,acronym,False,True,
+174,DSCR,acronym,False,True,
+175,DSN,acronym,False,True,
+176,DTRA,acronym,False,True,
+177,DTR,acronym,False,True,
+178,DTCI,acronym,False,True,
+179,DTEB,acronym,False,True,
+180,DTS,acronym,False,True,
+181,DARD,acronym,False,True,
+182,DDE,acronym,False,True,
+183,DDP,acronym,False,True,
+184,DOC,acronym,False,True,
+186,DD Form,acronym,False,True,
+187,DOE-DNA,acronym,False,True,
+188,DOE,acronym,False,True,
+189,DOJ,acronym,False,True,
+190,DON,acronym,False,True,
+191,DOS,acronym,False,True,
+192,DOT,acronym,False,True,
+193,DLR,acronym,False,True,
+194,DASD,acronym,False,True,
+195,DUSD,acronym,False,True,
+196,DUSD(L),acronym,False,True,
+197,DCU,acronym,False,True,
+198,DCN,acronym,False,True,
+199,DDT,acronym,False,True,
+200,DVD,acronym,False,True,
+202,DPWG,acronym,False,True,
+203,DTID,acronym,False,True,
+204,DPO,acronym,False,True,
+205,DLAD,acronym,False,True,
+206,DAISY,acronym,False,True,
+207,EBSO,acronym,False,True,
+208,DLAI,acronym,False,True,
+209,DLIS,acronym,False,True,
+210,DLAM,acronym,False,True,
+211,DLAR,acronym,False,True,
+212,DST,acronym,False,True,
+213,DDM,acronym,False,True,
+214,DCSN,acronym,False,True,
+215,DI,acronym,False,True,
+216,DIC,acronym,False,True,
+217,DODAAC,acronym,False,True,
+218,DODAAD,acronym,False,True,
+219,DDCMO,acronym,False,True,
+220,DLPC,acronym,False,True,
+221,DDPC,acronym,False,True,
+222,DODD,acronym,False,True,
+223,DoD EA,acronym,False,True,
+224,DDESB,acronym,False,True,
+225,DoD HAP,acronym,False,True,
+226,DODI,acronym,False,True,
+227,DODM,acronym,False,True,
+228,DRWG,acronym,False,True,
+229,DODSA/LWSP,acronym,False,True,
+230,DEA,acronym,False,True,
+231,DUNS,acronym,False,True,
+232,ERMS,acronym,False,True,
+233,ERS,acronym,False,True,
+234,ETD,acronym,False,True,
+235,EAFE,acronym,False,True,
+236,EKG,acronym,False,True,
+237,EDI,acronym,False,True,
+238,EPC,acronym,False,True,
+239,ETID,acronym,False,True,
+240,e-waste,acronym,False,True,
+241,ESD,acronym,False,True,
+242,EUC,acronym,False,True,
+243,EDFP,acronym,False,True,
+244,ESA,acronym,False,True,
+245,ERP,acronym,False,True,
+246,ESP,acronym,False,True,
+248,ECC,acronym,False,True,
+249,EC,acronym,False,True,
+250,EDA,acronym,False,True,
+252,ESACC,acronym,False,True,
+253,EO,acronym,False,True,
+254,EOD,acronym,False,True,
+256,ECCN,acronym,False,True,
+258,XML,acronym,False,True,
+259,FED,acronym,False,True,
+260,FAR,acronym,False,True,
+261,FAR/DOD,acronym,False,True,
+262,FAA,acronym,False,True,
+263,FCC,acronym,False,True,
+264,FCAs,acronym,False,True,
+265,FEDS,acronym,False,True,
+266,FEMA,acronym,False,True,
+267,FEP,acronym,False,True,
+268,FIFRA,acronym,False,True,
+269,FEDLOG,acronym,False,True,
+271,FPMR,acronym,False,True,
+272,FED-STD,acronym,False,True,
+273,FSG,acronym,False,True,
+274,FGS,acronym,False,True,
+276,FRH,acronym,False,True,
+277,FSCAP,acronym,False,True,
+278,FDA,acronym,False,True,
+280,FP,acronym,False,True,
+281,F/AD,acronym,False,True,
+282,FEPP,acronym,False,True,
+283,FMS,acronym,False,True,
+284,FS,acronym,False,True,
+285,FDP,acronym,False,True,
+286,FST,acronym,False,True,
+287,GIM,acronym,False,True,
+288,GC,acronym,False,True,
+289,GPF,acronym,False,True,
+290,GPFU,acronym,False,True,
+291,GHz,acronym,False,True,
+292,GCSS,acronym,False,True,
+294,GES,acronym,False,True,
+295,GPS-S,acronym,False,True,
+297,GPMCWG,acronym,False,True,
+298,GOER,acronym,False,True,
+299,GIDEP,acronym,False,True,
+301,GOVT,acronym,False,True,
+302,GAO,acronym,False,True,
+303,GBL,acronym,False,True,
+304,GOTS,acronym,False,True,
+305,GOCO,acronym,False,True,
+306,GFCI,acronym,False,True,
+307,GPM,acronym,False,True,
+308,GEF,acronym,False,True,
+309,HAZMAT,acronym,False,True,
+310,HMT,acronym,False,True,
+311,HMIC,acronym,False,True,
+312,HMIRS,acronym,False,True,
+313,HP,acronym,False,True,
+314,HTIS,acronym,False,True,
+315,HW,acronym,False,True,
+316,HWPS,acronym,False,True,
+317,HQ,acronym,False,True,
+318,HQAFMC,acronym,False,True,
+319,HQDA,acronym,False,True,
+320,HMMWV,acronym,False,True,
+321,HBCU,acronym,False,True,
+322,HN,acronym,False,True,
+323,HAP,acronym,False,True,
+324,HCFC,acronym,False,True,
+325,HFC,acronym,False,True,
+326,ID,acronym,False,True,
+327,IFF,acronym,False,True,
+328,ICS,acronym,False,True,
+331,IPE,acronym,False,True,
+332,IFB,acronym,False,True,
+334,IR,acronym,False,True,
+335,IOC,acronym,False,True,
+336,IG,acronym,False,True,
+337,IMD,acronym,False,True,
+338,IEEE,acronym,False,True,
+339,IMM SSR,acronym,False,True,
+340,ILMM,acronym,False,True,
+341,ILSC,acronym,False,True,
+342,IMMC,acronym,False,True,
+343,IMM,acronym,False,True,
+345,ISSA,acronym,False,True,
+346,INCITS,acronym,False,True,
+347,IMDG,acronym,False,True,
+348,ISO,acronym,False,True,
+349,ISO/IEC,acronym,False,True,
+350,ISPM,acronym,False,True,
+351,ITAR,acronym,False,True,
+353,ISA,acronym,False,True,
+354,ICE,acronym,False,True,
+355,ICP,acronym,False,True,
+356,ITA,acronym,False,True,
+358,INTA,acronym,False,True,
+360,IMC,acronym,False,True,
+361,IMCA,acronym,False,True,
+362,IM,acronym,False,True,
+363,ISN,acronym,False,True,
+364,ISC,acronym,False,True,
+365,IUID,acronym,False,True,
+366,JCMEC,acronym,False,True,
+367,JCS,acronym,False,True,
+368,JCASO,acronym,False,True,
+369,JCSG,acronym,False,True,
+370,JDDE COI,acronym,False,True,
+371,JESI,acronym,False,True,
+372,JEAP,acronym,False,True,
+373,JEAPCBD,acronym,False,True,
+374,JFCS,acronym,False,True,
+375,JFC,acronym,False,True,
+376,JLC,acronym,False,True,
+377,JLEnt,acronym,False,True,
+378,JMPAB,acronym,False,True,
+379,JOPES,acronym,False,True,
+380,JOA,acronym,False,True,
+381,JPIWG,acronym,False,True,
+382,JP,acronym,False,True,
+383,JRIMM,acronym,False,True,
+384,JSNBCDEAP,acronym,False,True,
+385,JSA/LWCG,acronym,False,True,
+386,JTSCC,acronym,False,True,
+387,JWRMAG,acronym,False,True,
+388,KG,acronym,False,True,
+389,KM,acronym,False,True,
+390,LDE,acronym,False,True,
+391,LDR,acronym,False,True,
+392,LAC,acronym,False,True,
+393,LEA,acronym,False,True,
+394,LESO,acronym,False,True,
+395,LAR,acronym,False,True,
+396,LG,acronym,False,True,
+397,LOA,acronym,False,True,
+398,LOAs,acronym,False,True,
+399,LOT,acronym,False,True,
+400,LCMC,acronym,False,True,
+401,LTV,acronym,False,True,
+402,LW,acronym,False,True,
+403,LTI,acronym,False,True,
+404,LIAC,acronym,False,True,
+405,LIAT,acronym,False,True,
+406,LISSR,acronym,False,True,
+407,LIN,acronym,False,True,
+408,LRA,acronym,False,True,
+409,LSN,acronym,False,True,
+410,LR,acronym,False,True,
+411,LRs,acronym,False,True,
+412,L,acronym,False,True,
+413,L/SCI,acronym,False,True,
+414,LEM,acronym,False,True,
+415,LMARS,acronym,False,True,
+416,LRT,acronym,False,True,
+417,LOGSA,acronym,False,True,
+418,LIM,acronym,False,True,
+419,LIM/GIM,acronym,False,True,
+420,LLRW,acronym,False,True,
+421,LRIP,acronym,False,True,
+422,LEL,acronym,False,True,
+423,MRL,acronym,False,True,
+424,MAJCOM,acronym,False,True,
+425,MDAP,acronym,False,True,
+426,MOE,acronym,False,True,
+427,MCA,acronym,False,True,
+428,MFG,acronym,False,True,
+429,MCCUU,acronym,False,True,
+430,MCO,acronym,False,True,
+431,MARPAT,acronym,False,True,
+432,MCSC,acronym,False,True,
+433,MK,acronym,False,True,
+435,MDEH,acronym,False,True,
+436,MDAS,acronym,False,True,
+437,MPPEH,acronym,False,True,
+438,MSDS,acronym,False,True,
+439,MRCAG,acronym,False,True,
+440,MRCs,acronym,False,True,
+441,MRO,acronym,False,True,
+442,MHz,acronym,False,True,
+444,MOA,acronym,False,True,
+445,MOU,acronym,False,True,
+446,MSG,acronym,False,True,
+447,MARS,acronym,False,True,
+449,MAPAC,acronym,False,True,
+450,MAPAD,acronym,False,True,
+451,MILDEP,acronym,False,True,
+452,MEIS,acronym,False,True,
+453,MIL-HDBK,acronym,False,True,
+454,MIDI,acronym,False,True,
+455,MIDI/MEIS,acronym,False,True,
+456,MMR,acronym,False,True,
+457,MIL-PRF,acronym,False,True,
+458,MPS,acronym,False,True,
+459,MPSA,acronym,False,True,
+460,MILSPEC,acronym,False,True,
+461,MIL-STD,acronym,False,True,
+462,MILSBILLS,acronym,False,True,
+463,MILSCAP,acronym,False,True,
+464,MILSTRIP,acronym,False,True,
+465,MILSTRAP,acronym,False,True,
+466,MG/M,acronym,False,True,
+467,MM,acronym,False,True,
+468,MPPCF,acronym,False,True,
+469,MT,acronym,False,True,
+470,MBU,acronym,False,True,
+471,MOD,acronym,False,True,
+472,MOLLE,acronym,False,True,
+474,MWRA,acronym,False,True,
+476,MVAC,acronym,False,True,
+478,MLI,acronym,False,True,
+479,MUT,acronym,False,True,
+480,NASA,acronym,False,True,
+481,NCB,acronym,False,True,
+483,NGA,acronym,False,True,
+484,NIIN,acronym,False,True,
+486,CNSS,acronym,False,True,
+487,CNNSI,acronym,False,True,
+488,NTISSIAM,acronym,False,True,
+489,NSN,acronym,False,True,
+490,NWS,acronym,False,True,
+491,NAVICP,acronym,False,True,
+492,NMLC,acronym,False,True,
+493,NOLSC,acronym,False,True,
+494,NAVSEA,acronym,False,True,
+495,NAVSEADET,acronym,False,True,
+496,NAVSUP,acronym,False,True,
+497,NAVSUP PUB,acronym,False,True,
+498,NVR,acronym,False,True,
+499,NWU,acronym,False,True,
+500,NICN,acronym,False,True,
+501,NAVSEAINST,acronym,False,True,
+502,NAVSUPINST,acronym,False,True,
+503,NAVMARCORMARS,acronym,False,True,
+504,NGH,acronym,False,True,
+505,NICAD,acronym,False,True,
+506,NVE,acronym,False,True,
+507,NAF,acronym,False,True,
+508,NIMSC,acronym,False,True,
+509,NIMSR,acronym,False,True,
+510,non-CIIC,acronym,False,True,
+511,non-CLSSA,acronym,False,True,
+512,non-DLA,acronym,False,True,
+513,non-DLSS,acronym,False,True,
+514,non-DOD,acronym,False,True,
+515,non-ACM,acronym,False,True,
+516,NHSW,acronym,False,True,
+517,non-IMM,acronym,False,True,
+518,non-USML/non-CCLI,acronym,False,True,
+519,non-NSN,acronym,False,True,
+520,NNMR,acronym,False,True,
+521,non-PCB,acronym,False,True,
+522,non-QRP,acronym,False,True,
+523,non-RCP,acronym,False,True,
+524,non-RCRA,acronym,False,True,
+525,non-USAF,acronym,False,True,
+526,NAFI,acronym,False,True,
+528,NI,acronym,False,True,
+529,NLT,acronym,False,True,
+530,NMCS,acronym,False,True,
+531,NOV,acronym,False,True,
+532,NBC,acronym,False,True,
+533,NP,acronym,False,True,
+534,NRC,acronym,False,True,
+535,NWRM,acronym,False,True,
+536,OSHA,acronym,False,True,
+537,OFAC,acronym,False,True,
+539,ONDCP,acronym,False,True,
+540,OASD,acronym,False,True,
+541,OASD(L),acronym,False,True,
+542,OPNAVINST,acronym,False,True,
+543,ODASD(SCI),acronym,False,True,
+544,DoD IG,acronym,False,True,
+545,OSD,acronym,False,True,
+546,USD(C),acronym,False,True,
+547,OIC,acronym,False,True,
+548,OMP,acronym,False,True,
+549,OL,acronym,False,True,
+550,OM,acronym,False,True,
+551,OPSEC,acronym,False,True,
+552,OST,acronym,False,True,
+553,OSTL,acronym,False,True,
+554,OESO,acronym,False,True,
+555,OCIE,acronym,False,True,
+556,OCA,acronym,False,True,
+557,OFA,acronym,False,True,
+558,OCONUS,acronym,False,True,
+560,OBA,acronym,False,True,
+561,ODS,acronym,False,True,
+562,PHS,acronym,False,True,
+563,PC,acronym,False,True,
+564,PCH,acronym,False,True,
+565,para,acronym,False,True,
+566,P/N,acronym,False,True,
+567,PPM,acronym,False,True,
+568,PCP,acronym,False,True,
+569,POF,acronym,False,True,
+570,PFC,acronym,False,True,
+571,PBL,acronym,False,True,
+574,PPE,acronym,False,True,
+575,PWRR,acronym,False,True,
+576,PICP,acronym,False,True,
+577,PT,acronym,False,True,
+578,PM,acronym,False,True,
+579,PLCO,acronym,False,True,
+581,PCB,acronym,False,True,
+582,POD,acronym,False,True,
+583,POE,acronym,False,True,
+584,P.O.,acronym,False,True,
+585,PR/DS,acronym,False,True,
+586,PRS,acronym,False,True,
+587,LBS,acronym,False,True,
+588,PWRS,acronym,False,True,
+589,PMIC,acronym,False,True,
+590,PMRP,acronym,False,True,
+591,PLGR,acronym,False,True,
+593,PICA,acronym,False,True,
+594,PICA/SICA,acronym,False,True,
+595,PLFAs,acronym,False,True,
+596,PEIS,acronym,False,True,
+598,PD,acronym,False,True,
+599,DX,acronym,False,True,
+600,PSC,acronym,False,True,
+601,PRC,acronym,False,True,
+602,PQDR,acronym,False,True,
+603,PSI,acronym,False,True,
+604,PLT,acronym,False,True,
+605,PDSSR,acronym,False,True,
+606,PEO,acronym,False,True,
+607,PAD,acronym,False,True,
+608,PCC,acronym,False,True,
+609,PCCN,acronym,False,True,
+610,PCC/ISN,acronym,False,True,
+611,PCC/ISN/DOR,acronym,False,True,
+612,PTD,acronym,False,True,
+613,PMO,acronym,False,True,
+614,PL,acronym,False,True,
+615,PUB,acronym,False,True,
+616,PR,acronym,False,True,
+617,QRP,acronym,False,True,
+618,QSL,acronym,False,True,
+619,Q,acronym,False,True,
+620,RCHSA,acronym,False,True,
+621,RF,acronym,False,True,
+622,RFID,acronym,False,True,
+623,RF-ITV,acronym,False,True,
+624,RADCON,acronym,False,True,
+626,ROM,acronym,False,True,
+627,RBS,acronym,False,True,
+628,RFI,acronym,False,True,
+629,RSC,acronym,False,True,
+630,RCP,acronym,False,True,
+631,RNCC,acronym,False,True,
+632,RNJC,acronym,False,True,
+633,RNVC,acronym,False,True,
+634,ROP,acronym,False,True,
+635,RCL,acronym,False,True,
+638,RRMS,acronym,False,True,
+640,RCRA,acronym,False,True,
+641,RM,acronym,False,True,
+642,RPO,acronym,False,True,
+643,RTM,acronym,False,True,
+644,RBI,acronym,False,True,
+645,RTD,acronym,False,True,
+646,RTDS,acronym,False,True,
+647,RTS,acronym,False,True,
+648,RI,acronym,False,True,
+649,SALD,acronym,False,True,
+650,SL,acronym,False,True,
+651,SCO,acronym,False,True,
+652,SCL,acronym,False,True,
+653,SICA,acronym,False,True,
+654,SIPRNET,acronym,False,True,
+655,SECNAVINST,acronym,False,True,
+657,SROTC,acronym,False,True,
+658,SNT,acronym,False,True,
+659,SIM,acronym,False,True,
+660,SAE,acronym,False,True,
+661,SVC,acronym,False,True,
+662,SEA,acronym,False,True,
+663,SLES,acronym,False,True,
+664,SPCCINST,acronym,False,True,
+665,STOL,acronym,False,True,
+666,SI,acronym,False,True,
+667,SIOP,acronym,False,True,
+668,SMCA,acronym,False,True,
+669,SITREP,acronym,False,True,
+671,SA/LW,acronym,False,True,
+672,SA/LWSP,acronym,False,True,
+673,SLGR,acronym,False,True,
+675,STLC,acronym,False,True,
+677,SHC,acronym,False,True,
+678,SMIC,acronym,False,True,
+680,SO-P,acronym,False,True,
+681,SPR,acronym,False,True,
+682,STE,acronym,False,True,
+683,ST/STE,acronym,False,True,
+684,SWOP,acronym,False,True,
+685,SY,acronym,False,True,
+687,SAGR,acronym,False,True,
+688,STD,acronym,False,True,
+689,SF,acronym,False,True,
+690,SAISCN,acronym,False,True,
+691,SIASCN,acronym,False,True,
+692,SASP,acronym,False,True,
+693,SOFA,acronym,False,True,
+694,SDP,acronym,False,True,
+695,ST,acronym,False,True,
+696,SME,acronym,False,True,
+697,SS,acronym,False,True,
+698,SPTD,acronym,False,True,
+700,SCOR,acronym,False,True,
+701,SCRM,acronym,False,True,
+702,SCC,acronym,False,True,
+703,SDR,acronym,False,True,
+704,SSR,acronym,False,True,
+705,SSIR,acronym,False,True,
+706,SPOT,acronym,False,True,
+707,SEP,acronym,False,True,
+708,TB,acronym,False,True,
+709,TDJC,acronym,False,True,
+710,TEDA,acronym,False,True,
+711,TM,acronym,False,True,
+712,TO,acronym,False,True,
+713,TP,acronym,False,True,
+714,TRC,acronym,False,True,
+715,TTIE,acronym,False,True,
+717,TLA,acronym,False,True,
+718,TSOC,acronym,False,True,
+719,TH,acronym,False,True,
+720,TPFDD,acronym,False,True,
+721,TCTO,acronym,False,True,
+723,TS,acronym,False,True,
+724,TIR,acronym,False,True,
+725,TMR,acronym,False,True,
+726,TOC,acronym,False,True,
+727,TSDF,acronym,False,True,
+728,TSCA,acronym,False,True,
+729,TCLP,acronym,False,True,
+730,TSC,acronym,False,True,
+731,TA,acronym,False,True,
+732,TCN,acronym,False,True,
+733,TWCF,acronym,False,True,
+734,TWT,acronym,False,True,
+735,TOW,acronym,False,True,
+736,TOCC,acronym,False,True,
+737,UV,acronym,False,True,
+738,USD,acronym,False,True,
+739,USD(AT),acronym,False,True,
+740,USD(R),acronym,False,True,
+741,UST,acronym,False,True,
+742,UXO,acronym,False,True,
+743,UFC,acronym,False,True,
+746,URL,acronym,False,True,
+747,UID,acronym,False,True,
+748,UII,acronym,False,True,
+749,UIT,acronym,False,True,
+750,UI,acronym,False,True,
+751,U/P,acronym,False,True,
+753,U.S.,acronym,False,True,
+754,USAF,acronym,False,True,
+755,USAFE,acronym,False,True,
+756,USA,acronym,False,True,
+757,USACHPPM,acronym,False,True,
+758,CECOM,acronym,False,True,
+759,ERDEC,acronym,False,True,
+760,USAISC,acronym,False,True,
+761,AMSAC,acronym,False,True,
+762,TACOM LCMC,acronym,False,True,
+764,U.S.C.,acronym,False,True,
+766,USEPA,acronym,False,True,
+767,USG,acronym,False,True,
+768,USMC,acronym,False,True,
+770,USN,acronym,False,True,
+771,NORTHCOM,acronym,False,True,
+772,USPS,acronym,False,True,
+773,USP,acronym,False,True,
+774,SOCOM,acronym,False,True,
+775,USSOCOM,acronym,False,True,
+776,USTRANSCOM,acronym,False,True,
+777,UPC,acronym,False,True,
+778,UW,acronym,False,True,
+780,UDMH,acronym,False,True,
+781,UND,acronym,False,True,
+782,USAPHC,acronym,False,True,
+783,VIN,acronym,False,True,
+784,VTOL,acronym,False,True,
+785,VOC,acronym,False,True,
+786,WRAMC,acronym,False,True,
+787,WR-ALC,acronym,False,True,
+788,WSDC,acronym,False,True,
+789,WSSP,acronym,False,True,
+790,WLANS,acronym,False,True,
+791,WCF,acronym,False,True,
+792,WWX,acronym,False,True,
+793,WPAFB,acronym,False,True,
+794,YMCA,acronym,False,True,
+795,ZIP,acronym,False,True,
+796,ZI,acronym,False,True,
+797,POC,,True,True,point of contact
+798,LOSSAR,,True,False,at RRMC.
+799,AI,,True,True,administrative instruction
+800,WHS,,True,False,Washington Headquarters Services
+801,DCMO,,True,False,Deputy Chief Management Officer
+802,DoD,,True,True,Department of Defense
+803,GIG,,True,True,Global Information Grid
+804,AD,,True,True,ASSISTANT DIRECTOR
+805,TMO,,True,False,Telework Managing Officer
+806,OPM,,True,False,of Personnel Management
+807,GFE,,True,False,government furnished equipment
+808,PII,,True,True,personally identifiable information
+809,CUI,,True,False,controlled unclassified information
+810,FOUO,,True,True,For Official Use Only
+811,LMS,,True,False,Learning Management System
+812,CIO,,True,True,Chief Information Officer
+813,NSA,,True,True,NATO SECRET ATOMAL
+814,NCA,,True,True,NATO CONFID ATOMAL
+815,CTS,,True,False,COSMIC TOP SECRET
+816,MC,,True,False,military characteristics
+817,FY,,True,True,fiscal year
+818,A,,True,False,AS
+819,CCSA,,True,False,Combatant Command support aircraft
+820,NISP,,True,False,National Industrial Security Program
+821,HA,,True,False,AS
+822,SAR,,True,False,synthetic aperture radar
+823,DSCA,,True,True,Defense Security Cooperation Agency
+824,LA,,True,False,AS
+825,HLD,,True,False,high level decision
+826,RA,,True,True,Readiness AS
+827,UCMJ,,True,True,Uniform Code of Military Justice
+828,BSR,,True,False,Base Structure Report
+829,MWR,,True,True,"Morale, Welfare, and Recreation"
+830,QOL,,True,False,quality of life
+831,WFS,,True,False,WARFIGHTER AND FAMILY SERVICES
+832,FMR,,True,True,Financial Management Regulations
+833,SAC,,True,False,School Age Care
+834,JER,,True,False,Joint Ethics Regulation
+835,MEO,,True,True,Military Equal Opportunity
+836,AFRTS,,True,False,American Forces Radio and Television Service
+837,SES,,True,False,Senior Executive Service
+838,ECECS,,True,False,executive control and essential command supervision
+839,PCS,,True,True,Permanent Change of Station
+840,NIBD,,True,False,net income before depreciation
+841,NIAD,,True,False,net income after depreciation
+842,AOR,,True,True,areas of responsibility
+843,ILR,,True,False,Interagency Language Roundtable
+844,AR,,True,True,Readiness
+845,IRR,,True,False,Individual Ready Reserve
+846,RC,,True,False,Reserve Components
+847,IADT,,True,False,initial active duty training
+848,DRRS,,True,False,Defense Readiness Reporting System
+849,AC,,True,True,Active Components
+850,SDOB,,True,False,Secretary of Defense Orders Book
+851,JMM,,True,False,Joint Mobilization Meeting
+852,GFMAP,,True,False,Global Force Management Allocation Plan
+853,IRS,,True,False,Internal Revenue Service
+854,NJP,,True,False,Non Judicial Punishment
+855,DEP,,True,False,Delayed Entry Program
+856,DAT,,True,False,drug and alcohol test
+857,NPS,,True,False,Non Prior Service
+858,MPA,,True,True,Military Personnel Account
+859,MP,,True,False,Military Personnel
+860,PS,,True,False,Prior Service
+861,HSDG,,True,False,High School Diploma Graduates
+862,MPM,,True,True,Military Performance Metrics
+863,GED,,True,False,General Educational Development
+864,MSR,,True,False,Mandatory Supervised Release
+865,TAP,,True,False,Transition Assistance Program
+866,SLA,,True,False,special leave accrual
+867,SLB,,True,False,Saved Leave Balance
+868,COT,,True,False,consecutive overseas tour
+869,EML,,True,False,Environmental Morale Leave
+870,FEML,,True,False,Funded Environmental Morale Leave
+871,HFP,,True,False,Hostile Fire Pay
+872,AIP,,True,False,assignment incentive pay
+873,DEERS,,True,False,Defense Enrollment Eligibility Reporting System
+874,R,,True,True,Reading
+875,S,,True,True,Speaking
+876,PTA,,True,False,parent teacher association
+877,PTO,,True,False,parent teacher organization
+878,RSO,,True,False,Regional Security Officer
+879,DHS,,True,False,Department of Homeland Security
+880,CFR,,True,True,Code of Federal Regulations
+881,EAR,,True,True,Export Administration Regulations
+882,USML,,True,True,United States Munitions List
+883,CAI,,True,False,critical application item
+884,CII,,True,True,critical inventory item
+885,CSI,,True,False,critical safety items
+886,FAC,,True,False,Facility Analysis Category
+887,UAV,,True,True,Unmanned Aerial Vehicle
+888,DERP,,True,False,Defense Environmental Restoration Program
+889,IRM,,True,False,Interim Risk Management
+890,BRAC,,True,True,Base Realignment and Closure
+891,EPA,,True,True,Environmental Protection Agency
+892,ESOH,,True,False,"Environment, Safety, and Occupational Health"
+893,DSMOA,,True,False,Defense and State Memorandum of Agreement
+894,ATSDR,,True,False,Agency for Toxic Substances and Disease Registry
+895,TPS,,True,False,third party site
+896,IRP,,True,False,Installation Restoration Program
+897,MMRP,,True,False,Military Munitions Response Program
+898,TAPP,,True,False,Technical Assistance for Public Participation
+899,ICO,,True,False,installation commanding officer
+900,DEW,,True,False,directed energy weapons
+901,GPS,,True,True,Global Positioning System
+902,VHF,,True,False,very high frequency
+903,USCG,,True,True,United States Coast Guard
+904,PSA,,True,True,public service announcement
+905,DTH,,True,False,direct to home
+906,GTCC,,True,False,Government Travel Charge Card
+907,IT,,True,True,information technology
+908,PACS,,True,False,physical access control system
+909,NCR,,True,False,National Capital Region
+910,NFE,,True,False,non federal entity
+911,HMPDS,,True,False,Health Manpower and Personnel Data System
+912,DFAS,,True,True,DEFENSE FINANCE AND ACCOUNTING SERVICE
+913,MTAS,,True,False,MINIMUM TERM OF ACTIVE SERVICE
+914,AB,,True,True,Accession Bonus
+915,MSO,,True,False,Military Service Obligation
+916,MQA,,True,False,Medical Quality Assurance
+917,MHS,,True,False,Military Health System
+918,DES,,True,False,Disability Evaluation System
+919,AFHPSP,,True,False,Armed Forces Health Professions Scholarship Program
+920,FAP,,True,False,Financial Assistance Program
+921,DMDC,,True,False,Defense Manpower Data Center
+922,IP,,True,True,incentive pay
+923,SO,,True,False,service obligations
+924,HPLRP,,True,False,health professions loan repayment programs
+925,HCP,,True,False,health care provider
+926,GPE,,True,True,Graduate Professional Education
+927,CSP,,True,False,consolidated special pays
+928,RB,,True,False,retention bonus
+929,BCP,,True,False,board certified pay
+930,TPC,,True,False,Third Party Collections
+931,MAC,,True,True,Medical Affirmative Claims
+932,MSA,,True,False,Medical Services Account
+933,RSM,,True,False,recovering Service members
+934,RT,,True,False,recovery team
+935,CRP,,True,False,Comprehensive Recovery Plan
+936,ICD,,True,False,International Classification of Diseases
+937,GS,,True,False,General Schedule
+938,IDT,,True,False,inactive duty training
+939,AGL,,True,False,above ground level
+940,MSL,,True,False,mean sea level
+941,USDA,,True,True,United States Department of Agriculture
+942,UC,,True,False,Unified Capabilities
+943,IASP,,True,False,Information Assurance Scholarship Program
+944,IA,,True,True,information assurance
+945,RCS,,True,True,Report Control Symbol
+946,IRMC,,True,False,INFORMATION RESOURCES MANAGEMENT COLLEGE
+947,AFIT,,True,False,Air Force Institute of Technology
+948,NDU,,True,False,National Defense University
+949,GPA,,True,False,grade point average
+950,GRE,,True,False,Graduate Record Examination
+951,GMAT,,True,False,Graduate Management Admissions Test
+952,MS,,True,False,Master of Science
+953,COI,,True,False,community of interest
+954,DoDHRA,,True,False,DEPARTMENT OF DEFENSE HUMAN RESOURCES ACTIVITY
+955,DISA,,True,True,DEFENSE INFORMATION SYSTEMS AGENCY
+956,OFSC,,True,False,Organizational and Force Structure Construct
+957,GFM,,True,False,Global Force Management
+958,DIACAP,,True,False,DoD Information Assurance Certification and Accreditation Process
+959,CPI,,True,False,Critical Program Information
+960,NSS,,True,False,National Security Systems
+961,RPI,,True,False,Real Property Inventory
+962,SSN,,True,False,Social Security Number
+963,DIOS,,True,False,Defense Intelligence Org Server
+964,DIA,,True,False,Defense Intelligence Agency
+965,NRO,,True,False,National Reconnaissance Office
+966,NCES,,True,False,net centric enterprise services
+967,AFOS,,True,False,Air Force Org Server
+968,AOS,,True,False,Army Org Server
+969,MCOS,,True,False,Marine Corps Org Server
+970,NOS,,True,False,Navy Org Server
+971,JOS,,True,False,Joint Org Server
+972,NGB,,True,False,National Guard Bureau
+973,NATO,,True,True,North Atlantic Treaty Organization
+974,GOSC,,True,False,General Officer Steering Committee
+975,CCB,,True,False,Configuration Control Board
+976,DBS,,True,False,defense business systems
+977,EA,,True,False,Executive Agent
+978,MDA,,True,False,Milestone Decision Authority
+979,DISR,,True,False,DoD IT Standards Registry
+980,JESC,,True,False,Joint Enterprise Standards Committee
+981,JIE,,True,False,Joint Information Environment
+982,OMB,,True,True,of Management and Budget
+983,HSPD,,True,False,Homeland Security Presidential Directive
+984,DSP,,True,False,Defense Standardization Program
+985,EB,,True,False,Executive Board
+986,IC,,True,True,Intelligence Community
+987,SDO,,True,True,standards development organization
+988,SOP,,True,False,standard operating procedure
+989,PA,,True,False,preparing activity
+990,LSA,,True,False,lead standardization activity
+991,NIST,,True,False,National Institute of Standards and Technology
+992,SSO,,True,False,standards setting organization
+993,JCIDS,,True,False,Joint Capabilities Integration and Development System
+994,ESG,,True,False,Executive Steering Group
+995,IEC,,True,False,International Electrotechnical Commission
+996,ITU,,True,False,International Telecommunication Union
+997,IETF,,True,False,Internet Engineering Task Force
+998,IE,,True,False,Information Enterprise
+999,DNI,,True,False,Director of National Intelligence
+1000,SCI,,True,True,sensitive compartmented information
+1001,SAP,,True,True,special access programs
+1002,NIEM,,True,False,National Information Exchange Model
+1003,ADSs,,True,False,authoritative data sources
+1004,DSE,,True,False,Data Services Environment
+1005,PPBE,,True,False,"Planning, Programming, Budgeting, and Execution"
+1006,PPSM,,True,True,"Ports, Protocols, and Services Management"
+1007,MPE,,True,False,Mission Partner Environment
+1008,DDMS,,True,False,Defense Discovery Metadata Specification
+1009,RMF,,True,False,Risk Management Framework
+1010,DAG,,True,False,Defense Acquisition Guidebook
+1011,ABAC,,True,False,attribute based access control
+1012,IES,,True,False,information exchange specifications
+1013,WSDL,,True,False,Web Service Description Language
+1014,NR,,True,False,net ready
+1015,KPP,,True,False,key performance parameter
+1016,KSA,,True,False,key system attribute
+1017,APA,,True,False,additional performance attribute
+1018,ICTO,,True,False,interim certificate to operate
+1019,JROC,,True,False,Joint Requirements Oversight Council
+1020,ISG,,True,False,Interoperability Steering Group
+1021,OARL,,True,False,Operating At Risk List
+1022,DISN,,True,False,Defense Information Systems Network
+1023,JITC,,True,False,Joint Interoperability Test Command
+1024,IPG,,True,True,Interoperability Process Guide
+1025,DT,,True,False,developmental testing
+1026,ITEP,,True,False,Interoperability Test and Evaluation Panel
+1027,BEA,,True,False,Business Enterprise Architecture
+1028,DCAPE,,True,False,DIRECTOR OF COST ASSESSMENT AND PROGRAM EVALUATION
+1029,AoA,,True,False,analysis of alternatives
+1030,BCL,,True,False,Business Capability Lifecycle
+1031,ISP,,True,False,information support plan
+1032,OTA,,True,False,Operational Test Agency
+1033,EMD,,True,False,engineering and manufacturing development
+1034,CDR,,True,False,critical design review
+1035,IATC,,True,False,interim approval to connect
+1036,CAO,,True,False,Connection Approval Office
+1037,UON,,True,False,urgent operational need
+1038,CCR,,True,False,Central Contractor Registration
+1039,NM,,True,False,Network Management
+1040,GEM,,True,False,GIG Enterprise Management
+1041,SM,,True,True,spectrum management
+1042,CM,,True,True,configuration management
+1043,PBNM,,True,False,policy based network management
+1044,IAW,,True,True,in accordance with
+1045,SNMP,,True,False,Simple Network Management Protocol
+1046,SA,,True,True,situational awareness
+1047,SP,,True,False,Special Publication
+1048,SCAP,,True,False,Security Content Automation Protocol
+1049,SCG,,True,False,Security Classification Guide
+1050,PSP,,True,False,Personnel Security Program
+1051,GTP,,True,False,GIG technical profile
+1052,DIB,,True,False,Defense Industrial Base
+1053,DMTF,,True,False,Desktop Management Task Force
+1054,CIM,,True,False,Common Information Model
+1055,POR,,True,False,programs of record
+1056,ES,,True,True,Enterprise Services
+1057,BMA,,True,False,Business Mission Area
+1058,ISSO,,True,False,Information System Security Officer
+1059,CCA,,True,True,cross certification agreements
+1060,CCEB,,True,False,Combined Communication Electronics Board
+1061,ING,,True,False,Inactive National Guard
+1062,MEB,,True,False,MEDICAL EVALUATION BOARD
+1063,DFSP,,True,True,DoD Food Service Program
+1064,DLA,,True,True,Defense Logistics Agency
+1065,WRM,,True,False,War Reserve Materiel
+1066,JSPB,,True,False,Joint Subsistence Policy Board
+1067,FCI,,True,False,food cost index
+1068,CFREP,,True,False,Combat Feeding Research and Engineering Program
+1069,CFREB,,True,False,Combat Feeding Research and Engineering Board
+1070,BDFA,,True,False,basic daily food allowance
+1071,ESM,,True,False,essential station messing
+1072,JSORF,,True,False,Joint Service Operational Ration Forum
+1073,FNB,,True,False,Food and Nutrition Board
+1074,NSRDEC,,True,False,"Natick Soldier Research, Development, and Engineering Center"
+1075,AFRS,,True,False,Armed Forces Recipe Service
+1076,JSRC,,True,False,Joint Service Recipe Committee
+1077,SPVDAP,,True,False,Subsistence Prime Vendor Destination Audit Program
+1078,MRE,,True,False,"Meal, Ready to Eat"
+1079,AES,,True,False,alternative educational setting
+1080,SNM,,True,True,special nuclear material
+1081,CCS,,True,False,contamination control station
+1082,UMMIPS,,True,True,Uniform Materiel Movement and Issue Priority System
+1083,RDD,,True,True,required delivery date
+1084,AIT,,True,True,automatic identification technology
+1085,ITV,,True,True,in transit visibility
+1086,TCSP,,True,True,theater consolidation and shipping points
+1087,TDD,,True,True,time definite delivery
+1088,SD,,True,False,Standardization Directory
+1089,ECM,,True,False,Earth Covered Magazine
+1090,AE,,True,True,and explosives
+1091,PES,,True,False,potential explosive site
+1092,MCE,,True,False,Maximum Credible Event
+1093,NEW,,True,False,Net Explosive Weight
+1094,NEWQD,,True,False,Net Explosive Weight for Quantity Distance
+1095,QD,,True,False,Quantity Distance
+1096,POL,,True,False,"petroleum, oil, lubricants"
+1097,VERA,,True,False,Voluntary Early Retirement Authority
+1098,VSIP,,True,False,Voluntary Separation Incentive Pay
+1099,FECA,,True,False,Federal Employees Compensation Act
+1100,UN,,True,True,United Nations
+1101,DCC,,True,True,Disposal Condition Code
+1102,OEBGD,,True,True,overseas environmental baseline guidance document
+1103,DDESS,,True,False,Domestic Dependent Elementary and Secondary Schools
+1104,MAP,,True,True,Management Action Plan
+1105,FYDP,,True,False,Future Years Defense Plan
+1106,ECP,,True,True,environmental condition of property
+1107,BCT,,True,False,BRAC Cleanup Teams
+1108,BEC,,True,False,base environmental coordinator
+1109,NDAI,,True,False,no DoD action indicated
+1110,JEP,,True,False,Joint Execution Plan
+1111,NRI,,True,False,NATURAL RESOURCE INJURY
+1112,FBI,,True,False,Federal Bureau of Investigation
+1113,IDS,,True,False,INTRUSION DETECTION SYSTEMS
+1114,SPP,,True,False,STANDING PRACTICE PROCEDURES
+1115,JDS,,True,False,Joint Dissemination System
+1116,CTIP,,True,False,Combating Trafficking in Persons
+1117,LIG,,True,False,Lead Inspector General
+1118,NCCD,,True,False,nuclear certified computer data
+1119,LAA,,True,False,Limited Access Authorization
+1120,DIBRS,,True,False,Defense Incident Based Reporting System
+1121,PID,,True,False,Personal Identifier Data
+1122,HIPAA,,True,False,Health Insurance Portability and Accountability Act
+1123,FOIA,,True,False,Freedom of Information Act
+1124,UCR,,True,False,Uniform Crime Reporting
+1125,PHI,,True,False,protected health information
+1126,JPME,,True,False,Joint Professional Military Education
