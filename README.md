@@ -20,6 +20,7 @@ Run 'conda env create --file environment.yml' in an anaconda prompt to create th
 
 ### Running Files
 
+## Data Preparation
 The DocExtract.py file reads and parses all of the documents and outputs the file 'full_dataframe.csv'. This csv contains a spreadsheet with the following fields:
 
 | Field       | Description |
@@ -32,6 +33,14 @@ The DocExtract.py file reads and parses all of the documents and outputs the fil
 | url   | The url where the .txt document can be found        |
 | acronyms      | A dictionary of the acronyms in the document (key - acronym, value - phrase)       |
 | glossary   | A dictionary of the glossary definitions in the document (key - term, value - definition)        |
+
+The NewSectionSegmentation.py reads in the dataframe create by DocExtract.py and segments the data by sections. The file was used to separate the glossary and acronym terms from the documents for use in relationship extraction.
+
+## Relationship Extraction
+There are two folders of code: one for synonyms and one for hypo/hypernyms.
+
+## Concept Class
+The code within this file creates a series of files for creating and loading concepts as well as creating and comparing RDF files.
 
 ## Authors
 
